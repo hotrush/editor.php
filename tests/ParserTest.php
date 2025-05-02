@@ -1,43 +1,44 @@
 <?php
 
-use BumpCore\EditorPhp\Exceptions\InvalidInputException;
+declare(strict_types=1);
+
 use BumpCore\EditorPhp\Exceptions\SchemaMismatchException;
-use BumpCore\EditorPhp\Exceptions\UnkownBlockException;
 use BumpCore\EditorPhp\Parser;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 test(
     'Can be initiated',
-    fn ($sample) => expect(new Parser($sample))->toBeInstanceOf(Parser::class),
-)->with('valid');
+    fn (array $sample) => expect(new Parser($sample))->toBeInstanceOf(Parser::class),
+)->with('valid-array');
 
 test(
     'Can access time',
     fn ($sample) => expect((new Parser($sample))->time())->toBeInstanceOf(Carbon::class)
-)->with('valid');
+        ->equalTo(Carbon::createFromTimestampMs(1672531199000))
+)->with('valid-array');
 
 test(
     'Can access blocks',
     fn ($sample) => expect((new Parser($sample))->blocks())->toBeInstanceOf(Collection::class)
-)->with('valid');
+)->with('valid-array');
 
 test(
     'Can access version',
     fn ($sample) => expect((new Parser($sample))->version())->toBeString()
+)->with('valid-array');
+
+test(
+    'Can be initiated from string',
+    fn ($sample) => expect(Parser::fromString($sample))->toBeInstanceOf(Parser::class),
 )->with('valid');
 
 test(
-    'Throws exception on unknown type',
+    'Throws exception on invalid input',
     fn ($sample) => (new Parser($sample))->blocks(),
-)->with('unknownType')->throws(UnkownBlockException::class);
-
-test(
-    'Throws exception on invalid Json',
-    fn ($sample) => new Parser($sample),
-)->with('broken')->throws(InvalidInputException::class);
+)->with('unknownType-array')->throws(SchemaMismatchException::class);
 
 test(
     'Throws exception on un matching schema',
     fn ($sample) => new Parser($sample),
-)->with('unmatchingSchema')->throws(SchemaMismatchException::class);
+)->with('unmatchingSchema-array')->throws(SchemaMismatchException::class);

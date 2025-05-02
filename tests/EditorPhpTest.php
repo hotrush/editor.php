@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 use BumpCore\EditorPhp\Block;
 use BumpCore\EditorPhp\Blocks\Paragraph;
 use BumpCore\EditorPhp\EditorPhp;
 use BumpCore\EditorPhp\Registry;
+use BumpCore\EditorPhp\Parser;
 use Illuminate\Support\Collection;
 
 test(
-    'Can be initiated with make method',
+    'Can be initiated with makeFromString method',
     fn ($sample) => expect(EditorPhp::make($sample))->toBeInstanceOf(EditorPhp::class)
 )->with('valid');
 
 test(
     'Can be initiated',
-    fn ($sample) => expect(new EditorPhp($sample))->toBeInstanceOf(EditorPhp::class)
+    fn ($sample) => expect(new EditorPhp(Parser::fromString($sample)))->toBeInstanceOf(EditorPhp::class)
 )->with('valid');
 
 test(
@@ -31,14 +34,15 @@ test(
     function() {
         EditorPhp::register(['p' => Paragraph::class]);
 
-        expect(Registry::getBlocks())->toHaveKey('p');
-        expect(Registry::getBlockByType('p'))->toEqual(Paragraph::class);
+        expect(Registry::getBlocks())->toHaveKey('p')
+            ->and(Registry::getBlockByType('p'))->toEqual(Paragraph::class);
     }
 );
 
 test(
     'Can be converted to array',
-    fn ($sample) => expect(EditorPhp::make($sample)->toArray())->toBeArray()->toHaveKeys(['time', 'blocks', 'version'])
+    fn ($sample) => expect(EditorPhp::make($sample)->toArray())->toBeArray()
+        ->toHaveKeys(['time', 'blocks', 'version'])
 )->with('valid');
 
 test(
@@ -103,19 +107,18 @@ test(
         // @phpstan-ignore-next-line
         $editor->baz = 'qux';
 
-        expect($editor->foo)->toEqual('bar');
-        expect($editor->baz)->toEqual('qux');
-
-        expect(isset($editor->foo))->toBeTrue();
-        expect(isset($editor->bar))->toBeFalse();
+        expect($editor->foo)->toEqual('bar')
+            ->and($editor->baz)->toEqual('qux')
+            ->and(isset($editor->foo))->toBeTrue()
+            ->and(isset($editor->bar))->toBeFalse();
 
         unset($editor->foo, $editor->baz, $editor->bar);
 
 
 
         // @phpstan-ignore-next-line
-        expect($editor->foo)->toBeNull();
+        expect($editor->foo)->toBeNull()
+            ->and($editor->baz)->toBeNull();
         // @phpstan-ignore-next-line
-        expect($editor->baz)->toBeNull();
     }
 );

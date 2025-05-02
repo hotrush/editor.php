@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BumpCore\EditorPhp;
 
 use Illuminate\Contracts\Validation\Validator;
@@ -20,8 +22,7 @@ class Helpers
      */
     public static function makeValidator(array $data, array $rules): Validator
     {
-        if (Facades\Validator::getFacadeRoot())
-        {
+        if (Facades\Validator::getFacadeRoot()) {
             return Facades\Validator::make($data, $rules);
         }
 

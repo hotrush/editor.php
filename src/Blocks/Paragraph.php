@@ -6,6 +6,7 @@ use BumpCore\EditorPhp\Block;
 use BumpCore\EditorPhp\Contracts\Fakeable;
 use BumpCore\EditorPhp\Helpers;
 use BumpCore\EditorPhp\Registry;
+use Faker\Generator;
 use Illuminate\Support\Facades\View;
 
 class Paragraph extends Block implements Fakeable
@@ -66,25 +67,26 @@ class Paragraph extends Block implements Fakeable
     {
         $template = Registry::getTemplate();
 
-        if (View::getFacadeRoot())
-        {
+        if (View::getFacadeRoot()) {
             return view("editor.php::{$template}.paragraph")
                 ->with($this->only('text'))
                 ->render();
         }
 
-        return Helpers::renderNative(__DIR__ . "/../../resources/php/{$template}/paragraph.php", $this->only('text'));
+        return Helpers::renderNative(
+            __DIR__ . "/../../resources/php/{$template}/paragraph.php",
+            $this->only('text')
+        );
     }
 
     /**
      * Generates fake data for the block.
      *
-     * @param \Faker\Generator $faker
-     *
+     * @param Generator $generator
      * @return array
      */
-    public static function fake(\Faker\Generator $faker): array
+    public static function fake(Generator $generator): array
     {
-        return ['text' => $faker->text(256)];
+        return ['text' => $generator->text(256)];
     }
 }

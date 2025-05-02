@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BumpCore\EditorPhp\Blocks;
 
 use BumpCore\EditorPhp\Block;
 use BumpCore\EditorPhp\Contracts\Fakeable;
 use BumpCore\EditorPhp\Helpers;
 use BumpCore\EditorPhp\Registry;
+use Faker\Generator;
 use Illuminate\Support\Facades\View;
 
 class Header extends Block implements Fakeable
@@ -44,28 +47,29 @@ class Header extends Block implements Fakeable
     {
         $template = Registry::getTemplate();
 
-        if (View::getFacadeRoot())
-        {
+        if (View::getFacadeRoot()) {
             return view("editor.php::{$template}.header")
                 ->with($this->only('text', 'level'))
                 ->render();
         }
 
-        return Helpers::renderNative(__DIR__ . "/../../resources/php/{$template}/header.php", $this->only('text', 'level'));
+        return Helpers::renderNative(
+            __DIR__ . "/../../resources/php/{$template}/header.php",
+            $this->only('text', 'level')
+        );
     }
 
     /**
      * Generates fake data for the block.
      *
-     * @param \Faker\Generator $faker
-     *
+     * @param Generator $generator
      * @return array
      */
-    public static function fake(\Faker\Generator $faker): array
+    public static function fake(Generator $generator): array
     {
         return [
-            'text' => $faker->text(64),
-            'level' => $faker->numberBetween(1, 6),
+            'text' => $generator->text(64),
+            'level' => $generator->numberBetween(1, 6),
         ];
     }
 }

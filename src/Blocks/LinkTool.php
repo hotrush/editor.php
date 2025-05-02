@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BumpCore\EditorPhp\Blocks;
 
 use BumpCore\EditorPhp\Block;
 use BumpCore\EditorPhp\Contracts\Fakeable;
 use BumpCore\EditorPhp\Helpers;
 use BumpCore\EditorPhp\Registry;
+use Faker\Generator;
 use Illuminate\Support\Facades\View;
 
 class LinkTool extends Block implements Fakeable
@@ -51,32 +54,33 @@ class LinkTool extends Block implements Fakeable
     {
         $template = Registry::getTemplate();
 
-        if (View::getFacadeRoot())
-        {
+        if (View::getFacadeRoot()) {
             return view("editor.php::{$template}.linktool")
                 ->with($this->only('link', 'meta'))
                 ->render();
         }
 
-        return Helpers::renderNative(__DIR__ . "/../../resources/php/{$template}/linktool.php", $this->only('link', 'meta'));
+        return Helpers::renderNative(
+            __DIR__ . "/../../resources/php/{$template}/linktool.php",
+            $this->only('link', 'meta')
+        );
     }
 
     /**
      * Generates fake data for the block.
      *
-     * @param \Faker\Generator $faker
-     *
+     * @param Generator $generator
      * @return array
      */
-    public static function fake(\Faker\Generator $faker): array
+    public static function fake(Generator $generator): array
     {
         return [
-            'link' => $faker->url(),
+            'link' => $generator->url(),
             'meta' => [
-                'title' => $faker->text(32),
-                'site_name' => $faker->text(32),
-                'description' => $faker->text(96),
-                'image' => ['url' => $faker->imageUrl()],
+                'title' => $generator->text(32),
+                'site_name' => $generator->text(32),
+                'description' => $generator->text(96),
+                'image' => ['url' => $generator->imageUrl()],
             ],
         ];
     }

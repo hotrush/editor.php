@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use BumpCore\EditorPhp\Block;
 use BumpCore\EditorPhp\Blocks\Paragraph;
 use BumpCore\EditorPhp\Registry;

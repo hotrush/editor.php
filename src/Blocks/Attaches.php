@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BumpCore\EditorPhp\Blocks;
 
 use BumpCore\EditorPhp\Block;
 use BumpCore\EditorPhp\Contracts\Fakeable;
 use BumpCore\EditorPhp\Helpers;
 use BumpCore\EditorPhp\Registry;
+use Faker\Generator;
 use Illuminate\Support\Facades\View;
 
 class Attaches extends Block implements Fakeable
@@ -50,32 +53,33 @@ class Attaches extends Block implements Fakeable
     {
         $template = Registry::getTemplate();
 
-        if (View::getFacadeRoot())
-        {
+        if (View::getFacadeRoot()) {
             return view("editor.php::{$template}.attaches")
                 ->with($this->only('title', 'file'))
                 ->render();
         }
 
-        return Helpers::renderNative(__DIR__ . "/../../resources/php/{$template}/attaches.php", $this->only('title', 'file'));
+        return Helpers::renderNative(
+            __DIR__ . "/../../resources/php/{$template}/attaches.php",
+            $this->only('title', 'file')
+        );
     }
 
     /**
      * Generates fake data for the block.
      *
-     * @param \Faker\Generator $faker
-     *
+     * @param Generator $generator
      * @return array
      */
-    public static function fake(\Faker\Generator $faker): array
+    public static function fake(Generator $generator): array
     {
         return [
-            'title' => $faker->text(64),
+            'title' => $generator->text(64),
             'file' => [
-                'url' => $faker->url(),
-                'size' => $faker->numberBetween(250000, 10000000),
-                'name' => $faker->text(64),
-                'extension' => $faker->fileExtension(),
+                'url' => $generator->url(),
+                'size' => $generator->numberBetween(250000, 10000000),
+                'name' => $generator->text(64),
+                'extension' => $generator->fileExtension(),
             ],
         ];
     }

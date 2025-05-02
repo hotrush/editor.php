@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BumpCore\EditorPhp;
 
 use BumpCore\EditorPhp\Exceptions\InvalidInputException;
 use BumpCore\EditorPhp\Exceptions\SchemaMismatchException;
-use BumpCore\EditorPhp\Exceptions\UnkownBlockException;
+use BumpCore\EditorPhp\Exceptions\UnknownBlockException;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class Parser
 {
@@ -23,11 +26,11 @@ class Parser
     /**
      * Constructor.
      *
-     * @param string $input
+     * @param array $input
      *
      * @return void
      */
-    public function __construct(string $input)
+    public function __construct(array $input)
     {
         $this->input = $this->handleInput($input);
     }
@@ -40,7 +43,8 @@ class Parser
     public function time(): Carbon
     {
         // return Carbon::parse(Arr::get($this->input, 'time') / 1000);
-        return Carbon::parse(new DateTime('@' . Arr::get($this->input, 'time') / 1000));
+        // return Carbon::parse(new DateTime('@' . Arr::get($this->input, 'time') / 1000));
+        return Carbon::createFromTimestampMs(Arr::get($this->input, 'time'));
     }
 
     /**
@@ -54,13 +58,11 @@ class Parser
     {
         $blocks = new Collection();
 
-        foreach (Arr::get($this->input, 'blocks') as $block)
-        {
+        foreach (Arr::get($this->input, 'blocks') as $block) {
             $type = Arr::get($block, 'type');
 
-            if (!Registry::hasBlockType($type))
-            {
-                throw new UnkownBlockException($type);
+            if (!Registry::hasBlockType($type)) {
+                throw new UnknownBlockException($type);
             }
 
             $blocks->push(new (Registry::getBlockByType($type))(Arr::get($block, 'data'), $root));
@@ -82,21 +84,13 @@ class Parser
     /**
      * Parses given `Editor.js` input JSON.
      *
-     * @param string $input
+     * @param array $input
      *
      * @return array
      */
-    protected function handleInput(string $input): array
+    protected function handleInput(array $input): array
     {
-        if (!Str::isJson($input))
-        {
-            throw new InvalidInputException('Given Editor.js input is not a valid JSON.');
-        }
-
-        $input = json_decode($input, true);
-
-        if (!$this->validateSchema($input))
-        {
+        if (!$this->validateSchema($input)) {
             throw new SchemaMismatchException('Given Editor.js input is not matching schema.');
         }
 
@@ -113,14 +107,25 @@ class Parser
     public function validateSchema(array $input): bool
     {
         $validator = Helpers::makeValidator($input, [
-            'time' => 'required|numeric',
-            'blocks' => 'present|array',
-            'blocks.*' => 'present|array',
-            'blocks.*.type' => 'required|string',
-            'blocks.*.data' => 'present|array',
-            'version' => 'required|string',
+            'time' => ['required', 'numeric'],
+            'blocks' => ['present', 'array'],
+            'blocks.*' => ['present', 'array'],
+            'blocks.*.type' => ['required', 'string', Rule::in(Registry::getBlocksTypes())],
+            'blocks.*.data' => ['present', 'array'],
+            'version' => ['required', 'string'],
         ]);
 
         return !$validator->fails();
+    }
+
+    public static function fromString(string $input): self
+    {
+        if (!Str::isJson($input)) {
+            throw new InvalidInputException('Given Editor.js input is not a valid JSON.');
+        }
+
+        $input = json_decode($input, true);
+
+        return new static($input);
     }
 }

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BumpCore\EditorPhp;
 
 use BumpCore\EditorPhp\Contracts\Fakeable;
+use BumpCore\EditorPhp\Exceptions\UnknownBlockException;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
@@ -11,6 +14,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class EditorPhp.
@@ -41,33 +45,35 @@ class EditorPhp implements Arrayable, Jsonable, Responsable, Renderable, Htmlabl
     /**
      * Fluent method to create new `EditorPhp` instance.
      *
-     * @param string|null $input
+     * @param mixed $input
      *
      * @return EditorPhp
      */
-    public static function make(?string $input = null): self
+    public static function make(mixed $input = null): self
     {
-        return new static($input);
+        $parser = match(true) {
+            is_string($input) => Parser::fromString($input),
+            is_array($input) => new Parser($input),
+            is_null($input) => null,
+            default => throw new \InvalidArgumentException('Invalid input type.'),
+        };
+
+        return new static($parser);
     }
 
     /**
      * Constructor.
      *
-     * @param string|null $input The input data.
-     *
-     * @return void
+     * @param Parser|null $parser
+     * @throws UnknownBlockException
      */
-    public function __construct(?string $input = null)
+    public function __construct(?Parser $parser = null)
     {
-        if (empty($input))
-        {
+        if (!$parser) {
             $this->time = Carbon::now();
             $this->blocks = new Collection();
             $this->version = null;
-        }
-        else
-        {
-            $parser = new Parser($input);
+        } else {
             $this->time = $parser->time();
             $this->blocks = $parser->blocks($this);
             $this->version = $parser->version();
@@ -106,7 +112,7 @@ class EditorPhp implements Arrayable, Jsonable, Responsable, Renderable, Htmlabl
      *
      * @return void
      */
-    public function __set(string $name, $value): void
+    public function __set(string $name, mixed $value): void
     {
         $this->attributes[$name] = $value;
     }
@@ -187,9 +193,9 @@ class EditorPhp implements Arrayable, Jsonable, Responsable, Renderable, Htmlabl
      *
      * @param \Illuminate\Http\Request $request The request.
      *
-     * @return \Symfony\Component\HttpFoundation\Response The response.
+     * @return Response The response.
      */
-    public function toResponse($request)
+    public function toResponse($request): Response
     {
         return $request->expectsJson() ? response($this->toArray()) : response($this->render());
     }
@@ -211,7 +217,7 @@ class EditorPhp implements Arrayable, Jsonable, Responsable, Renderable, Htmlabl
      *
      * @return string Rendered HTML.
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         return $this->render();
     }
@@ -241,8 +247,7 @@ class EditorPhp implements Arrayable, Jsonable, Responsable, Renderable, Htmlabl
         $blocks = Registry::getFakeableBlocks();
         $generatedBlocks = [];
 
-        foreach (range(0, $faker->numberBetween($minLength, $maxLength)) as $index)
-        {
+        foreach (range(0, $faker->numberBetween($minLength, $maxLength)) as $_) {
             /**
              * @var class-string<Block&Fakeable>
              */
@@ -251,12 +256,12 @@ class EditorPhp implements Arrayable, Jsonable, Responsable, Renderable, Htmlabl
             $generatedBlocks[] = (new ($block)($block::fake($faker)))->toArray();
         }
 
-        $generated = json_encode([
+        $generated = [
             'time' => (int) Carbon::now()->getPreciseTimestamp(3),
             'blocks' => $generatedBlocks,
             'version' => $faker->semver(),
-        ]);
+        ];
 
-        return $instance ? static::make($generated) : $generated;
+        return $instance ? static::make($generated) : json_encode($generated);
     }
 }

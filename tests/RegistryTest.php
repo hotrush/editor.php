@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use BumpCore\EditorPhp\Blocks\Paragraph;
 use BumpCore\EditorPhp\Exceptions\InvalidBlockException;
 use BumpCore\EditorPhp\Exceptions\InvalidTemplateException;
@@ -10,9 +12,9 @@ test(
     function() {
         Registry::registerBlock('p', Paragraph::class);
 
-        expect(Registry::getBlocks())->toHaveKey('p');
-        expect(Registry::getBlockByType('p'))->toEqual(Paragraph::class);
-        expect(Registry::getBlockTypeByClass(Paragraph::class))->toEqual('p');
+        expect(Registry::getBlocks())->toHaveKey('p')
+            ->and(Registry::getBlockByType('p'))->toEqual(Paragraph::class)
+            ->and(Registry::getBlockTypeByClass(Paragraph::class))->toEqual('p');
     }
 );
 
@@ -30,9 +32,7 @@ test(
 test(
     'Can not register invalid block',
     // @phpstan-ignore-next-line
-    fn () => Registry::registerBlock('foo', get_class((new class()
-    {
-    })))
+    fn () => Registry::registerBlock('foo', get_class((new class() {})))
 )->throws(InvalidBlockException::class);
 
 test(
@@ -54,8 +54,8 @@ test(
     'Can check if block type exists',
     function() {
         Registry::registerBlock('p', Paragraph::class);
-        expect(Registry::hasBlockType('p'))->toBeTrue();
-        expect(Registry::hasBlockType('foo'))->toBeFalse();
+        expect(Registry::hasBlockType('p'))->toBeTrue()
+            ->and(Registry::hasBlockType('foo'))->toBeFalse();
     }
 );
 

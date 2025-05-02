@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use BumpCore\EditorPhp\Sanitizer;
 
 test(
@@ -35,8 +37,8 @@ test(
             ]
         );
 
-        expect($sanitizer->sanitize()['text']['nested'][0])->toBe($expected);
-        expect($sanitizer->sanitize()['foo'])->toBe($data);
+        expect($sanitizer->sanitize()['text']['nested'][0])->toBe($expected)
+            ->and($sanitizer->sanitize()['foo'])->toBe($data);
     }
 )->with([
     [

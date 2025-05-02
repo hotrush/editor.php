@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BumpCore\EditorPhp;
 
 use BumpCore\EditorPhp\Contracts\Fakeable;
@@ -57,8 +59,7 @@ class Registry
      */
     public static function setTemplate(string $template): void
     {
-        if (!in_array($template, ['tailwind', 'bootstrap-five']))
-        {
+        if (!in_array($template, ['tailwind', 'bootstrap-five'])) {
             throw new InvalidTemplateException("Invalid template: {$template}, available templates: tailwind, bootstrap-five");
         }
 
@@ -73,6 +74,16 @@ class Registry
     public static function getBlocks(): array
     {
         return static::$blocks;
+    }
+
+    /**
+     * Get all registered blocks types.
+     *
+     * @return array<string>
+     */
+    public static function getBlocksTypes(): array
+    {
+        return array_keys(static::$blocks);
     }
 
     /**
@@ -119,8 +130,7 @@ class Registry
      */
     public static function registerBlock(string $name, string $class): void
     {
-        if (!is_subclass_of($class, Block::class))
-        {
+        if (!is_subclass_of($class, Block::class)) {
             throw new InvalidBlockException("Invalid block: {$class}, block must be a subclass of " . Block::class);
         }
 
@@ -137,13 +147,11 @@ class Registry
      */
     public static function registerBlocks(array $blocks, bool $override = false): void
     {
-        if ($override)
-        {
+        if ($override) {
             static::$blocks = [];
         }
 
-        foreach ($blocks as $name => $class)
-        {
+        foreach ($blocks as $name => $class) {
             static::registerBlock($name, $class);
         }
     }

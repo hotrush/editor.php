@@ -1,41 +1,32 @@
-name: Fix syling
+name: Fix styling
 
 on:
-    push:
-        branches:
-          - master
-          - "*.x"
-        paths:
-          - "**.php"
-
-    pull_request:
-        paths:
-          - "**.php"
+  push:
+  pull_request:
 
 permissions:
-    contents: write
+  contents: write
+
 jobs:
-    run:
-        runs-on: ubuntu-latest
-        steps:
-          - name: Checkout code
-            uses: actions/checkout@v3
-            with:
-                ref: ${{ github.head_ref }}
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
-          - name: Setup PHP
-            uses: shivammathur/setup-php@v2
-            with:
-                php-version: 8.2
-                tools: composer:v2
-                coverage: none
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
 
-          - name: Install dependencies
-            run: composer install
+      - uses: ./.github/actions/composer-install
 
-          - name: Execute php-cs-fixer
-            run: ./vendor/bin/php-cs-fixer fix
+      - name: Execute php-cs-fixer
+        run: ./vendor/bin/php-cs-fixer fix
 
-          - uses: stefanzweifel/git-auto-commit-action@v4
-            with:
-                commit_message: Fix styling
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Fix styling

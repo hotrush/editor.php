@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BumpCore\EditorPhp;
 
 use BumpCore\EditorPhp\Console\BlockMakeCommand;
@@ -7,14 +9,6 @@ use Illuminate\Support\ServiceProvider;
 
 class EditorPhpServiceProvider extends ServiceProvider
 {
-    /**
-     * @return void
-     */
-    public function register()
-    {
-        // ...
-    }
-
     public function boot(): void
     {
         if ($this->app->runningInConsole())

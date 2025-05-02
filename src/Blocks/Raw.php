@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BumpCore\EditorPhp\Blocks;
 
 use BumpCore\EditorPhp\Block;
 use BumpCore\EditorPhp\Contracts\Fakeable;
+use Faker\Generator;
 
 class Raw extends Block implements Fakeable
 {
@@ -44,12 +47,11 @@ class Raw extends Block implements Fakeable
     /**
      * Generates fake data for the block.
      *
-     * @param \Faker\Generator $faker
-     *
+     * @param Generator $generator
      * @return array
      */
-    public static function fake(\Faker\Generator $faker): array
+    public static function fake(Generator $generator): array
     {
-        return ['html' => $faker->randomHtml()];
+        return ['html' => $generator->randomHtml()];
     }
 }

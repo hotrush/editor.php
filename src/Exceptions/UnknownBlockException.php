@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BumpCore\EditorPhp\Exceptions;
 
 use Exception;
 
-class UnkownBlockException extends Exception
+class UnknownBlockException extends Exception
 {
     public function __construct(string $block)
     {

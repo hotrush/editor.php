@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BumpCore\EditorPhp\Blocks;
 
 use BumpCore\EditorPhp\Block;
@@ -46,14 +48,16 @@ class Checklist extends Block implements Fakeable
     {
         $template = Registry::getTemplate();
 
-        if (View::getFacadeRoot())
-        {
+        if (View::getFacadeRoot()) {
             return view("editor.php::{$template}.checklist")
                 ->with($this->only('items'))
                 ->render();
         }
 
-        return Helpers::renderNative(__DIR__ . "/../../resources/php/{$template}/checklist.php", $this->only('items'));
+        return Helpers::renderNative(
+            __DIR__ . "/../../resources/php/{$template}/checklist.php",
+            $this->only('items')
+        );
     }
 
     /**

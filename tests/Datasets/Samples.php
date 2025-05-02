@@ -1,17 +1,41 @@
 <?php
 
+declare(strict_types=1);
+
+function readSample(string $sample): string
+{
+    return file_get_contents(__DIR__ . "/samples/$sample.json");
+}
+
+function readSampleAndDecode(string $sample): array
+{
+    return [json_decode(readSample($sample), true)];
+}
+
 dataset('valid', [
-    'valid' => file_get_contents(__DIR__ . '/samples/valid.json'),
+    'valid' => readSample('valid'),
 ]);
 
 dataset('broken', [
-    'broken' => file_get_contents(__DIR__ . '/samples/broken.json'),
+    'broken' => readSample('broken'),
 ]);
 
 dataset('unknownType', [
-    'sample' => file_get_contents(__DIR__ . '/samples/unknownType.json'),
+    'sample' => readSample('unknownType'),
 ]);
 
 dataset('unmatchingSchema', [
-    'unmatchingSchema' => file_get_contents(__DIR__ . '/samples/unmatchingSchema.json'),
+    'unmatchingSchema' => readSample('unmatchingSchema'),
+]);
+
+dataset('valid-array', [
+    'valid' => readSampleAndDecode('valid'),
+]);
+
+dataset('unknownType-array', [
+    'sample' => readSampleAndDecode('unknownType'),
+]);
+
+dataset('unmatchingSchema-array', [
+    'unmatchingSchema' => readSampleAndDecode('unmatchingSchema'),
 ]);

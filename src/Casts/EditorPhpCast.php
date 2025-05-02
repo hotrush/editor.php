@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BumpCore\EditorPhp\Casts;
 
 use BumpCore\EditorPhp\EditorPhp;
@@ -16,20 +18,13 @@ class EditorPhpCast implements CastsAttributes
      *
      * @return EditorPhp|null
      */
-    public function get($model, string $key, $value, array $attributes)
+    public function get(Model $model, string $key, mixed $value, array $attributes)
     {
-        if (is_null($value))
-        {
+        if (is_null($value)) {
             return $value;
         }
 
-        // $editorPhp = \BumpCore\EditorPhp\EditorPhp::make($value);
-
-        // return \BumpCore\EditorPhp\EditorPhp::make($value)->setModel($model);
-        return tap(
-            EditorPhp::make($value),
-            fn (EditorPhp $editorPhp) => $editorPhp->model = $model
-        );
+        return EditorPhp::make($value);
     }
 
     /**
@@ -40,12 +35,9 @@ class EditorPhpCast implements CastsAttributes
      *
      * @return mixed
      */
-    public function set($model, string $key, $value, array $attributes)
+    public function set(Model $model, string $key, mixed $value, array $attributes)
     {
-        if ($value instanceof EditorPhp)
-        {
-            $value->model = $model;
-
+        if ($value instanceof EditorPhp) {
             return $value->toJson();
         }
 

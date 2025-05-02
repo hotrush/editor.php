@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BumpCore\EditorPhp;
 
 use Illuminate\Contracts\Support\Arrayable;
@@ -137,7 +139,7 @@ abstract class Block implements Arrayable, Htmlable, Renderable
      *
      * @return array The array of specified keys.
      */
-    public function only($keys): array
+    public function only(mixed $keys): array
     {
         return Arr::only($this->data, is_array($keys) ? $keys : func_get_args());
     }
@@ -174,7 +176,7 @@ abstract class Block implements Arrayable, Htmlable, Renderable
      *
      * @return void
      */
-    public function __set(string $name, $value): void
+    public function __set(string $name, mixed $value): void
     {
         $this->set($name, $value);
     }
@@ -198,15 +200,13 @@ abstract class Block implements Arrayable, Htmlable, Renderable
      */
     protected function validateData(array $data, array $rules): array
     {
-        if ($rules === [])
-        {
+        if ($rules === []) {
             return $data;
         }
 
         $validator = Helpers::makeValidator($data, $rules);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return [];
         }
 
@@ -231,7 +231,7 @@ abstract class Block implements Arrayable, Htmlable, Renderable
      *
      * @return string Rendered HTML.
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         return $this->render();
     }
