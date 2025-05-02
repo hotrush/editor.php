@@ -1,12 +1,12 @@
-<?php if ($style === 'ordered'): ?>
+<?php if($style === 'ordered'): ?>
     <ol class="mb-3">
-        <?php foreach ($items as $item): ?>
+        <?php foreach($items as $item): ?>
             <li class="mb-1"><?php echo $item['content']; ?></li>
         <?php endforeach; ?>
     </ol>
-<?php elseif ($style === 'unordered'): ?>
+<?php elseif($style === 'unordered'): ?>
     <ul class="mb-3">
-        <?php foreach ($items as $item): ?>
+        <?php foreach($items as $item): ?>
             <li class="mb-1"><?php echo $item['content']; ?></li>
         <?php endforeach; ?>
     </ul>
@@ -15,7 +15,7 @@
         class="d-flex flex-column align-items-start pl-8 gap-1 mb-3"
         style="list-style: none"
     >
-        <?php foreach ($items as $item): ?>
+        <?php foreach($items as $item): ?>
             <li class="inline-flex justify-center align-items-center gap-2">
                 <span class="bg-light rounded-circle <?php echo $item['meta']['checked'] ? 'text-secondary' : 'text-black'; ?>">
                     <svg
@@ -31,7 +31,7 @@
                     </svg>
                 </span>
 
-                <?php if ($item['meta']['checked']): ?>
+                <?php if($item['meta']['checked']): ?>
                     <del><?php echo $item['content']; ?></del>
                 <?php else: ?>
                     <span><?php echo $item['content']; ?></span>

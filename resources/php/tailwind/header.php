@@ -1,4 +1,4 @@
-<?php switch ($level):
+<?php switch($level):
     case (1): ?>
         <h1 class="text-5xl font-bold mb-4"><?php echo $text; ?></h1>
     <?php break; ?>
