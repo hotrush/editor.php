@@ -1,7 +1,10 @@
 <?php
 
-namespace BumpCore\EditorPhp\Casts;
+declare(strict_types=1);
 
+namespace Hotrush\EditorPhp\Casts;
+
+use Hotrush\EditorPhp\EditorPhp;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,16 +16,15 @@ class EditorPhpCast implements CastsAttributes
      * @param string|null $value
      * @param array $attributes
      *
-     * @return \BumpCore\EditorPhp\EditorPhp|null
+     * @return EditorPhp|null
      */
-    public function get($model, string $key, $value, array $attributes)
+    public function get(Model $model, string $key, mixed $value, array $attributes)
     {
-        if (is_null($value))
-        {
+        if (is_null($value)) {
             return $value;
         }
 
-        return \BumpCore\EditorPhp\EditorPhp::make($value)->setModel($model);
+        return EditorPhp::make($value);
     }
 
     /**
@@ -33,11 +35,10 @@ class EditorPhpCast implements CastsAttributes
      *
      * @return mixed
      */
-    public function set($model, string $key, $value, array $attributes)
+    public function set(Model $model, string $key, mixed $value, array $attributes)
     {
-        if ($value instanceof \BumpCore\EditorPhp\EditorPhp)
-        {
-            return $value->setModel($model)->toJson();
+        if ($value instanceof EditorPhp) {
+            return $value->toJson();
         }
 
         return $value;

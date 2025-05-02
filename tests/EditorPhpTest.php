@@ -1,20 +1,22 @@
 <?php
 
-use BumpCore\EditorPhp\Block\Block;
-use BumpCore\EditorPhp\Blocks\Paragraph;
-use BumpCore\EditorPhp\EditorPhp;
-use BumpCore\EditorPhp\Parser;
-use Illuminate\Database\Eloquent\Model;
+declare(strict_types=1);
+
+use Hotrush\EditorPhp\Block;
+use Hotrush\EditorPhp\Blocks\Paragraph;
+use Hotrush\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\Parser;
+use Hotrush\EditorPhp\Registry;
 use Illuminate\Support\Collection;
 
 test(
-    'Can be initiated with make method',
+    'Can be initiated with makeFromString method',
     fn ($sample) => expect(EditorPhp::make($sample))->toBeInstanceOf(EditorPhp::class)
 )->with('valid');
 
 test(
     'Can be initiated',
-    fn ($sample) => expect(new EditorPhp($sample))->toBeInstanceOf(EditorPhp::class)
+    fn ($sample) => expect(new EditorPhp(Parser::fromString($sample)))->toBeInstanceOf(EditorPhp::class)
 )->with('valid');
 
 test(
@@ -29,22 +31,18 @@ test(
 
 test(
     'Can register block',
-    function() {
+    function () {
         EditorPhp::register(['p' => Paragraph::class]);
 
-        expect(Parser::$blocks)->toHaveKey('p');
-        expect(Parser::$blocks['p'])->toEqual(Paragraph::class);
+        expect(Registry::getBlocks())->toHaveKey('p')
+            ->and(Registry::getBlockByType('p'))->toEqual(Paragraph::class);
     }
 );
 
 test(
-    'Model can be set',
-    fn ($model) => expect(EditorPhp::make()->setModel($model)->model)->toBeInstanceOf(Model::class)->not()->toBeEmpty()
-)->with('models');
-
-test(
     'Can be converted to array',
-    fn ($sample) => expect(EditorPhp::make($sample)->toArray())->toBeArray()->toHaveKeys(['time', 'blocks', 'version'])
+    fn ($sample) => expect(EditorPhp::make($sample)->toArray())->toBeArray()
+        ->toHaveKeys(['time', 'blocks', 'version'])
 )->with('valid');
 
 test(
@@ -68,8 +66,18 @@ test(
 )->with('valid');
 
 test(
+    'can be rendered either with Bootstrap template or Tailwind template',
+    function ($sample) {
+        EditorPhp::useBootstrapFive();
+        expect(EditorPhp::make($sample)->render())->toBeString();
+        EditorPhp::useTailwind();
+        expect(EditorPhp::make($sample)->render())->toBeString();
+    }
+)->with('valid');
+
+test(
     'Can be generate fake data as instance',
-    fn () => expect(EditorPhp::fake(true))->toBeInstanceOf(EditorPhp::class)
+    fn () => expect(EditorPhp::fake(true, 30, 60))->toBeInstanceOf(EditorPhp::class)
 );
 
 test(
@@ -79,7 +87,7 @@ test(
 
 test(
     'Can add and use macro',
-    function($sample) {
+    function ($sample) {
         EditorPhp::macro(
             'getParagraphs',
             fn () => $this->blocks->filter(fn (Block $block) => $block instanceof Paragraph)
@@ -88,3 +96,29 @@ test(
         expect(EditorPhp::make($sample)->getParagraphs())->toBeInstanceOf(Collection::class);
     }
 )->with('valid');
+
+test(
+    'Can handle dynamic property',
+    function () {
+        $editor = EditorPhp::make();
+
+        // @phpstan-ignore-next-line
+        $editor->foo = 'bar';
+        // @phpstan-ignore-next-line
+        $editor->baz = 'qux';
+
+        expect($editor->foo)->toEqual('bar')
+            ->and($editor->baz)->toEqual('qux')
+            ->and(isset($editor->foo))->toBeTrue()
+            ->and(isset($editor->bar))->toBeFalse();
+
+        unset($editor->foo, $editor->baz, $editor->bar);
+
+
+
+        // @phpstan-ignore-next-line
+        expect($editor->foo)->toBeNull()
+            ->and($editor->baz)->toBeNull();
+        // @phpstan-ignore-next-line
+    }
+);

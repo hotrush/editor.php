@@ -1,11 +1,12 @@
 <?php
 
-use BumpCore\EditorPhp\Casts\EditorPhpCast;
-use BumpCore\EditorPhp\EditorPhp;
+declare(strict_types=1);
+
+use Hotrush\EditorPhp\Casts\EditorPhpCast;
+use Hotrush\EditorPhp\EditorPhp;
 use Illuminate\Database\Eloquent\Model;
 
-$baseModel = new class() extends Model
-{
+$baseModel = new class () extends Model {
     protected $fillable = [
         'title',
         'content',
@@ -17,8 +18,12 @@ $baseModel = new class() extends Model
 };
 
 dataset('models', [
-    'Loads Json' => fn () => $baseModel->fill(['content' => file_get_contents(__DIR__ . '/samples/valid.json')]),
-    'Loads Editor.php' => fn () => $baseModel->fill(['content' => EditorPhp::make(file_get_contents(__DIR__ . '/samples/valid.json'))]),
+    'Loads Json' => fn () => $baseModel->fill([
+        'content' => file_get_contents(__DIR__ . '/samples/valid.json'),
+    ]),
+    'Loads Editor.php' => fn () => $baseModel->fill([
+        'content' => EditorPhp::make(file_get_contents(__DIR__ . '/samples/valid.json')),
+    ]),
 ]);
 
 dataset('emptyContentModel', [

@@ -1,21 +1,22 @@
 <?php
 
-namespace BumpCore\EditorPhp\Blocks;
+namespace Hotrush\EditorPhp\Blocks;
 
-use BumpCore\EditorPhp\Block\Block;
-use BumpCore\EditorPhp\Contracts\Fakeable;
-use BumpCore\EditorPhp\EditorPhp;
-use BumpCore\EditorPhp\Helpers;
+use Faker\Generator;
+use Hotrush\EditorPhp\Block;
+use Hotrush\EditorPhp\Contracts\Fakeable;
+use Hotrush\EditorPhp\Helpers;
+use Hotrush\EditorPhp\Registry;
 use Illuminate\Support\Facades\View;
 
 class Paragraph extends Block implements Fakeable
 {
     /**
-     * Tag allow list for purifying data.
+     * Sanitize rules for sanitizing data.
      *
      * @return array|string
      */
-    public function allows(): array|string
+    public function sanitize(): array|string
     {
         return [
             'text' => [
@@ -64,25 +65,29 @@ class Paragraph extends Block implements Fakeable
      */
     public function render(): string
     {
-        if (View::getFacadeRoot())
-        {
-            return view(sprintf('editor.php::%s.paragraph', EditorPhp::usingTemplate()))
-                ->with(['data' => $this->data])
+        $template = Registry::getTemplate();
+
+        if (View::getFacadeRoot()) {
+            return view("editor.php::{$template}.paragraph")
+                ->with($this->only('text'))
                 ->render();
         }
 
-        return Helpers::renderNative(__DIR__ . sprintf('/../../resources/php/%s/paragraph.php', EditorPhp::usingTemplate()), ['data' => $this->data]);
+        return Helpers::renderNative(
+            __DIR__ . "/../../resources/php/{$template}/paragraph.php",
+            $this->only('text')
+        );
     }
 
     /**
      * Generates fake data for the block.
      *
-     * @param \Faker\Generator $faker
+     * @param Generator $generator
      *
      * @return array
      */
-    public static function fake(\Faker\Generator $faker): array
+    public static function fake(Generator $generator): array
     {
-        return ['text' => $faker->text(256)];
+        return ['text' => $generator->text(256)];
     }
 }

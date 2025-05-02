@@ -1,21 +1,24 @@
 <?php
 
-namespace BumpCore\EditorPhp\Blocks;
+declare(strict_types=1);
 
-use BumpCore\EditorPhp\Block\Block;
-use BumpCore\EditorPhp\Contracts\Fakeable;
-use BumpCore\EditorPhp\EditorPhp;
-use BumpCore\EditorPhp\Helpers;
+namespace Hotrush\EditorPhp\Blocks;
+
+use Faker\Generator;
+use Hotrush\EditorPhp\Block;
+use Hotrush\EditorPhp\Contracts\Fakeable;
+use Hotrush\EditorPhp\Helpers;
+use Hotrush\EditorPhp\Registry;
 use Illuminate\Support\Facades\View;
 
 class Attaches extends Block implements Fakeable
 {
     /**
-     * Tag allow list for purifying data.
+     * Sanitize rules for sanitizing data.
      *
      * @return array|string
      */
-    public function allows(): array|string
+    public function sanitize(): array|string
     {
         return [
             'title' => [],
@@ -48,32 +51,36 @@ class Attaches extends Block implements Fakeable
      */
     public function render(): string
     {
-        if (View::getFacadeRoot())
-        {
-            return view(sprintf('editor.php::%s.attaches', EditorPhp::usingTemplate()))
-                ->with(['data' => $this->data])
+        $template = Registry::getTemplate();
+
+        if (View::getFacadeRoot()) {
+            return view("editor.php::{$template}.attaches")
+                ->with($this->only('title', 'file'))
                 ->render();
         }
 
-        return Helpers::renderNative(__DIR__ . sprintf('/../../resources/php/%s/attaches.php', EditorPhp::usingTemplate()), ['data' => $this->data]);
+        return Helpers::renderNative(
+            __DIR__ . "/../../resources/php/{$template}/attaches.php",
+            $this->only('title', 'file')
+        );
     }
 
     /**
      * Generates fake data for the block.
      *
-     * @param \Faker\Generator $faker
+     * @param Generator $generator
      *
      * @return array
      */
-    public static function fake(\Faker\Generator $faker): array
+    public static function fake(Generator $generator): array
     {
         return [
-            'title' => $faker->text(64),
+            'title' => $generator->text(64),
             'file' => [
-                'url' => $faker->url(),
-                'size' => $faker->numberBetween(250000, 10000000),
-                'name' => $faker->text(64),
-                'extension' => $faker->fileExtension(),
+                'url' => $generator->url(),
+                'size' => $generator->numberBetween(250000, 10000000),
+                'name' => $generator->text(64),
+                'extension' => $generator->fileExtension(),
             ],
         ];
     }

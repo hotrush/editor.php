@@ -4,14 +4,10 @@ parameters:
 		- resources
 		- src
 		- tests
-	level: 4
-	ignoreErrors:
-		- "#Unsafe usage of new static#"
-		- "#Class BumpCore\\\\EditorPhp\\\\EditorPhp has an uninitialized readonly property \\$model. Assign it in the constructor.#"
-		- "#Readonly property BumpCore\\\\EditorPhp\\\\EditorPhp::\\$time is already assigned.#"
-		- "#Readonly property BumpCore\\\\EditorPhp\\\\EditorPhp::\\$model is assigned outside of the constructor.#"
-		- "#Undefined variable: \\$this#"
-		- "#Call to an undefined method BumpCore\\\\EditorPhp\\\\EditorPhp::getParagraphs\\(\\).#"
-		- "#Variable \\$data might not be defined.#"
-		- "#Unreachable statement - code above always terminates.#"
+	level: 5
+	excludePaths:
+		- resources/php/*
 	reportUnmatchedIgnoredErrors: false
+	treatPhpDocTypesAsCertain: false
+includes:
+    - phpstan-baseline.neon

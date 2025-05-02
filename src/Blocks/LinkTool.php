@@ -1,21 +1,24 @@
 <?php
 
-namespace BumpCore\EditorPhp\Blocks;
+declare(strict_types=1);
 
-use BumpCore\EditorPhp\Block\Block;
-use BumpCore\EditorPhp\Contracts\Fakeable;
-use BumpCore\EditorPhp\EditorPhp;
-use BumpCore\EditorPhp\Helpers;
+namespace Hotrush\EditorPhp\Blocks;
+
+use Faker\Generator;
+use Hotrush\EditorPhp\Block;
+use Hotrush\EditorPhp\Contracts\Fakeable;
+use Hotrush\EditorPhp\Helpers;
+use Hotrush\EditorPhp\Registry;
 use Illuminate\Support\Facades\View;
 
 class LinkTool extends Block implements Fakeable
 {
     /**
-     * Tag allow list for purifying data.
+     * Sanitize rules for sanitizing data.
      *
      * @return array|string
      */
-    public function allows(): array|string
+    public function sanitize(): array|string
     {
         return [
             'link' => [],
@@ -49,32 +52,36 @@ class LinkTool extends Block implements Fakeable
      */
     public function render(): string
     {
-        if (View::getFacadeRoot())
-        {
-            return view(sprintf('editor.php::%s.linktool', EditorPhp::usingTemplate()))
-                ->with(['data' => $this->data])
+        $template = Registry::getTemplate();
+
+        if (View::getFacadeRoot()) {
+            return view("editor.php::{$template}.linktool")
+                ->with($this->only('link', 'meta'))
                 ->render();
         }
 
-        return Helpers::renderNative(__DIR__ . sprintf('/../../resources/php/%s/linktool.php', EditorPhp::usingTemplate()), ['data' => $this->data]);
+        return Helpers::renderNative(
+            __DIR__ . "/../../resources/php/{$template}/linktool.php",
+            $this->only('link', 'meta')
+        );
     }
 
     /**
      * Generates fake data for the block.
      *
-     * @param \Faker\Generator $faker
+     * @param Generator $generator
      *
      * @return array
      */
-    public static function fake(\Faker\Generator $faker): array
+    public static function fake(Generator $generator): array
     {
         return [
-            'link' => $faker->url(),
+            'link' => $generator->url(),
             'meta' => [
-                'title' => $faker->text(32),
-                'site_name' => $faker->text(32),
-                'description' => $faker->text(96),
-                'image' => ['url' => $faker->imageUrl()],
+                'title' => $generator->text(32),
+                'site_name' => $generator->text(32),
+                'description' => $generator->text(96),
+                'image' => ['url' => $generator->imageUrl()],
             ],
         ];
     }

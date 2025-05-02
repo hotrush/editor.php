@@ -4,6 +4,8 @@
 
 Editor.php is a package designed to assist in parsing and manipulating the output of [Editor.js](https://editorjs.io/) with ease. It can be used with either vanilla PHP or with Larave. Laravel offers few additional features.
 
+This is a modified fork of [bumpcore/editor.php](https://github.com/bumpcore/editor.php).
+
 ## Table Of Contents
 
 * [Quick Start](#quick-start)
@@ -37,23 +39,23 @@ Editor.php is a package designed to assist in parsing and manipulating the outpu
 Install package by:
 
 ```bash
-composer require bumpcore/editor.php
+composer require hotrush/editor.php
 ```
 
 Editor.php is really simple to get started; 
 
 ```php
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhp;
 
 // Passing Editor.js's output directly to the `make`.
 // This will render blocks into html.
+// Make accepts json string or array.
 echo EditorPhp::make($json)->render();
 ```
 
 Editor.php supports following blocks; 
 
 * [Attaches](https://github.com/editor-js/attaches)
-* [Checklist](https://github.com/editor-js/checklist)
 * [Code](https://github.com/editor-js/code)
 * [Delimiter](https://github.com/editor-js/delimiter)
 * [Embed](https://github.com/editor-js/embed)
@@ -78,7 +80,7 @@ The `EditorPhp` class is the main class for managing blocks. You can access, ren
 There are two ways to create a new instance of EditorPhp:
 
 ```php
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhp;
 
 // Using the `new` syntax.
 $editor = new EditorPhp($json);
@@ -94,9 +96,9 @@ Both syntaxes are equal, and there's almost no difference between them.
 You can access blocks through the blocks property.
 
 ```php
-use BumpCore\EditorPhp\EditorPhp;
-use BumpCore\EditorPhp\Block\Block;
-use BumpCore\EditorPhp\Blocks\Paragraph;
+use Hotrush\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\Block;
+use Hotrush\EditorPhp\Blocks\Paragraph;
 
 $editor = EditorPhp::make($json);
 
@@ -119,7 +121,7 @@ Blocks are stored as `Illuminate\Support\Collection` . By using collection metho
 Rendering HTML is very straightforward. There are multiple ways to render your instance:
 
 ```php
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhp;
 
 $editor = EditorPhp::make($json);
 
@@ -138,7 +140,7 @@ Again, all three cases are the same, with no one above another. You can use whic
 By the default, you have two options for the default block's templates; `tailwindcss` and `Bootstrap 5` . Default used template is `tailwindcss` You may switch templates by:
 
 ```php
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhp;
 
 // Using tailwind.
 EditorPhp::useTailwind();
@@ -154,7 +156,7 @@ You can learn more about rendering in [creating custom blocks](#creating-custom-
 You can generate fake data with `EditorPhp` .
 
 ```php
-use BumpCore\EditorPhp\EditorPhp; 
+use Hotrush\EditorPhp\EditorPhp; 
 
 // This will return a generated fake JSON.
 $fake = EditorPhp::fake(); 
@@ -178,7 +180,7 @@ You can learn more about generating fake data for the blocks in [fake data gener
 You can convert your instance to an array using the `toArray()` method.
 
 ```php
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhp;
 
 $editor = EditorPhp::make($json);
 
@@ -191,7 +193,7 @@ $array = $editor->toArray();
 You can convert your instance to JSON using the `toJson(/** options */)` method. This method is useful when you manipulate your instance.
 
 ```php
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhp;
 
 $editor = EditorPhp::make($json);
 
@@ -204,7 +206,7 @@ $json = $editor->toJson(JSON_PRETTY_PRINT);
 You can access time and version:
 
 ```php
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhp;
 
 $editor = EditorPhp::make($json);
 
@@ -219,7 +221,7 @@ The `time` property is a `Carbon` instance. You can learn more about it in [Carb
 You can register macros and use them later. Macros are based on Laravel.
 
 ```php
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhp;
 
 // Registering new macro.
 EditorPhp::macro(
@@ -242,7 +244,7 @@ Blocks are the main building parts of the `EditorPhp` editor. You can manipulate
 Before we jump into learning how to customize blocks, here's how you can register your blocks:
 
 ```php
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhp;
 
 // This will merge without erasing already registered blocks. Other blocks will still remain with the recently registered `image` and `paragraph` blocks.
 EditorPhp::register([
@@ -281,7 +283,7 @@ In this output, our type key is `paragraph` , so we should register it as `'para
 As mentioned previously, almost all blocks are supported in `EditorPhp` . However, they mostly handle the validation of block data and rendering. For the `Image` block to work properly, it requires an upload. We can implement this upload logic in the `Image` class:
 
 ```php
-use BumpCore\EditorPhp\Blocks\Image;
+use Hotrush\EditorPhp\Blocks\Image;
 
 class MyImageBlock extends Image
 {
@@ -327,7 +329,7 @@ The `uploadTemp` function performs a temporary file upload. This method is stati
 The `upload` function serves a different purpose. It represents the final upload for the block but is not static. This method assumes that the image has already been uploaded temporarily and the `$json` has been loaded and parsed. Therefore, we can use this function as follows:
 
 ```php
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhp;
 use Blocks\MyImageBlock;
 
 $editor = EditorPhp::make($json);
@@ -350,13 +352,13 @@ Now the block performs the final upload and is saved as JSON.
 It is impossible to support all blocks out there, so we can implement our own blocks in an easy way. A standard block looks like the following:
 
 ```php
-use BumpCore\EditorPhp\Block\Block;
+use Hotrush\EditorPhp\Block;
 
 class MyCustomBlock extends Block
 {
     public function render(): string
     {
-        return view('blocks.my-custom-block', ['data' => $this->data]);
+        return view('blocks.my-custom-block', ['block' => $this]);
     }
 }
 ```
@@ -401,7 +403,7 @@ $this->has('custom.data');
 Validating data is not required, but it can make your data safer. Validating block data is quite easy. We just have to add a `rules` method to our block:
 
 ```php
-use BumpCore\EditorPhp\Block\Block;
+use BumpCore\EditorPhp\Block;
 
 class MyCustomBlock extends Block
 {
@@ -428,7 +430,7 @@ When validating the block's data fails, the data will be empty. Data validation 
 You can purify the HTML of your data if you wish. It's important to prevent injections. Purifying data looks much like validation:
 
 ```php
-use BumpCore\EditorPhp\Block\Block;
+use Hotrush\EditorPhp\Block;
 
 class MyCustomBlock extends Block
 {
@@ -461,7 +463,7 @@ Unlike validation, purifying will only strip unwanted tags and attributes.
 As we mentioned earlier, we can generate fake data with `EditorPhp` . But it requires to generate each block's own fake data. To generate fake data we should add static method to our block:
 
 ```php
-use BumpCore\EditorPhp\Block\Block;
+use Hotrush\EditorPhp\Block;
 
 class MyCustomBlock extends Block
 {
@@ -500,7 +502,7 @@ There's few Laravel features that will make your life little bit easier.
 You can use `EditorPhpCast` to cast your model's attribute to `EditorPhp` instance.
 
 ```php
-use BumpCore\EditorPhp\Casts\EditorPhpCast;
+use Hotrush\EditorPhp\Casts\EditorPhpCast;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -521,7 +523,7 @@ echo $post->content->render();
 Also if you are using cast, you may access your model within block instances:
 
 ```php
-use BumpCore\EditorPhp\Block\Block;
+use Hotrush\EditorPhp\Block;
 use App\Models\Post;
 
 class MyBlock extends Block

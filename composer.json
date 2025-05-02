@@ -1,19 +1,23 @@
 {
-	"name": "bumpcore/editor.php",
+	"name": "hotrush/editor.php",
 	"description": "PHP integration for Editor.js",
 	"type": "library",
 	"license": "MIT",
 	"autoload": {
 		"psr-4": {
-			"BumpCore\\EditorPhp\\": "src/"
+			"Hotrush\\EditorPhp\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"BumpCore\\EditorPhp\\Tests\\": "tests/"
+			"Hotrush\\EditorPhp\\Tests\\": "tests/"
 		}
 	},
 	"authors": [
+		{
+			"name": "Roma Rush",
+			"role": "Developer"
+		},
 		{
 			"name": "Abdulkadir Cemiloğlu",
 			"email": "kadir.cemiloglu1@gmail.com",
@@ -21,16 +25,17 @@
 		}
 	],
 	"require": {
-		"php": "^8.1",
-		"illuminate/support": "^10.0",
-		"illuminate/validation": "^10.0"
+		"php": ">=8.2",
+		"illuminate/support": "^10.0|^11.0|^12.0",
+		"illuminate/validation": "^10.0|^11.0|^12.0",
+		"symfony/html-sanitizer": "^7.0"
 	},
 	"require-dev": {
-		"pestphp/pest": "^1.22.4",
-		"orchestra/testbench": "^8.0",
-		"friendsofphp/php-cs-fixer": "^3.14.4",
-		"phpstan/phpstan": "^1.10",
-		"fakerphp/faker": "^1.23"
+		"pestphp/pest": "^3.0",
+		"orchestra/testbench": "^9.0|^10.0",
+		"phpstan/phpstan": "^2.0",
+		"fakerphp/faker": "^1.23",
+		"laravel/pint": "^1.22"
 	},
 	"suggest": {
 		"fakerphp/faker": "Required to use fake data generation for blocks."
@@ -43,7 +48,7 @@
 	"extra": {
 		"laravel": {
 			"providers": [
-				"BumpCore\\EditorPhp\\EditorPhpServiceProvider"
+				"Hotrush\\EditorPhp\\EditorPhpServiceProvider"
 			]
 		}
 	}

@@ -1,24 +1,17 @@
 <?php
 
-namespace BumpCore\EditorPhp;
+declare(strict_types=1);
 
-use BumpCore\EditorPhp\Console\BlockMakeCommand;
+namespace Hotrush\EditorPhp;
+
+use Hotrush\EditorPhp\Console\BlockMakeCommand;
 use Illuminate\Support\ServiceProvider;
 
 class EditorPhpServiceProvider extends ServiceProvider
 {
-    /**
-     * @return void
-     */
-    public function register()
+    public function boot(): void
     {
-        // ...
-    }
-
-    public function boot()
-    {
-        if ($this->app->runningInConsole())
-        {
+        if ($this->app->runningInConsole()) {
             $this->commands(BlockMakeCommand::class);
         }
 
@@ -32,6 +25,6 @@ class EditorPhpServiceProvider extends ServiceProvider
             __DIR__ . '/../config/editor.php' => config_path('editor.php'),
         ]);
 
-        Parser::register(config('editor.blocks') ?? [], !empty(config('editor.blocks')));
+        Registry::registerBlocks(config('editor.blocks') ?? [], !empty(config('editor.blocks')));
     }
 }

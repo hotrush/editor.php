@@ -1,6 +1,8 @@
 <?php
 
-namespace BumpCore\EditorPhp\Contracts;
+declare(strict_types=1);
+
+namespace Hotrush\EditorPhp\Contracts;
 
 use Faker\Generator;
 

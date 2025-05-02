@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Contracts\View\ViewCompilationException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -8,12 +10,11 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 class Compiler extends BladeCompiler
 {
-    protected function compileForeach($expression)
+    protected function compileForeach($expression): string
     {
         preg_match('/\( *(.+) +as +(.*)\)$/is', $expression ?? '', $matches);
 
-        if (count($matches) === 0)
-        {
+        if (count($matches) === 0) {
             throw new ViewCompilationException('Malformed @foreach statement.');
         }
 
@@ -24,7 +25,7 @@ class Compiler extends BladeCompiler
         return "<?php foreach({$iteratee} as {$iteration}): ?>";
     }
 
-    protected function compileEndforeach()
+    protected function compileEndforeach(): string
     {
         return '<?php endforeach; ?>';
     }
@@ -32,12 +33,9 @@ class Compiler extends BladeCompiler
 
 $compiler = new Compiler(new Filesystem(), __DIR__, false);
 
-foreach (['bootstrap-five', 'tailwind'] as $framework)
-{
-    foreach (scandir(__DIR__ . '/../../resources/views/' . $framework) as $template)
-    {
-        if (!str_ends_with($template, '.blade.php'))
-        {
+foreach (['bootstrap-five', 'tailwind'] as $framework) {
+    foreach (scandir(__DIR__ . '/../../resources/views/' . $framework) as $template) {
+        if (!str_ends_with($template, '.blade.php')) {
             continue;
         }
 

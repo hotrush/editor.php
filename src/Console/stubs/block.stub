@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace {{ namespace }};
 
-use BumpCore\EditorPhp\Block\Block;
+use Hotrush\EditorPhp\Block;
 
 class {{ class }} extends Block
 {
@@ -26,7 +28,7 @@ class {{ class }} extends Block
     public function render(): string
     {
         return view('block')
-            ->with(['data' => $this->data])
+            ->with('block', $this)
             ->render();
     }
 }

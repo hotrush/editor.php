@@ -1,18 +1,21 @@
 <?php
 
-namespace BumpCore\EditorPhp\Blocks;
+declare(strict_types=1);
 
-use BumpCore\EditorPhp\Block\Block;
-use BumpCore\EditorPhp\Contracts\Fakeable;
+namespace Hotrush\EditorPhp\Blocks;
+
+use Faker\Generator;
+use Hotrush\EditorPhp\Block;
+use Hotrush\EditorPhp\Contracts\Fakeable;
 
 class Raw extends Block implements Fakeable
 {
     /**
-     * Tag allow list for purifying data.
+     * Sanitize rules for sanitizing data.
      *
      * @return array|string
      */
-    public function allows(): array|string
+    public function sanitize(): array|string
     {
         return [
             'html' => '*',
@@ -38,18 +41,18 @@ class Raw extends Block implements Fakeable
      */
     public function render(): string
     {
-        return $this->data->get('html', '');
+        return $this->get('html', '');
     }
 
     /**
      * Generates fake data for the block.
      *
-     * @param \Faker\Generator $faker
+     * @param Generator $generator
      *
      * @return array
      */
-    public static function fake(\Faker\Generator $faker): array
+    public static function fake(Generator $generator): array
     {
-        return ['html' => $faker->randomHtml()];
+        return ['html' => $generator->randomHtml()];
     }
 }

@@ -1,39 +1,21 @@
 <?php
 
-namespace BumpCore\EditorPhp;
+declare(strict_types=1);
 
-use BumpCore\EditorPhp\Block\Block;
-use BumpCore\EditorPhp\Exceptions\EditorPhpException;
+namespace Hotrush\EditorPhp;
+
 use Carbon\Carbon;
+use DateTime;
+use Hotrush\EditorPhp\Exceptions\InvalidInputException;
+use Hotrush\EditorPhp\Exceptions\SchemaMismatchException;
+use Hotrush\EditorPhp\Exceptions\UnknownBlockException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class Parser
 {
-    /**
-     * Registered blocks.
-     *
-     * @var array<string, string>
-     */
-    public static array $blocks = [
-        'attaches' => Blocks\Attaches::class,
-        'checklist' => Blocks\Checklist::class,
-        'code' => Blocks\Code::class,
-        'delimiter' => Blocks\Delimiter::class,
-        'embed' => Blocks\Embed::class,
-        'header' => Blocks\Header::class,
-        'image' => Blocks\Image::class,
-        'linkTool' => Blocks\LinkTool::class,
-        'list' => Blocks\ListBlock::class,
-        'paragraph' => Blocks\Paragraph::class,
-        'personality' => Blocks\Personality::class,
-        'quote' => Blocks\Quote::class,
-        'raw' => Blocks\Raw::class,
-        'table' => Blocks\Table::class,
-        'warning' => Blocks\Warning::class,
-    ];
-
     /**
      * Converted input JSON.
      *
@@ -44,53 +26,29 @@ class Parser
     /**
      * Constructor.
      *
-     * @param string $input
+     * @param array $input
      *
      * @return void
      */
-    public function __construct(string $input)
+    public function __construct(array $input)
     {
         $this->input = $this->handleInput($input);
     }
 
     /**
-     * Registers new block.
-     *
-     * @param array<string, string> $blocks
-     * @param bool $override
-     *
-     * @return void
-     */
-    public static function register(array $blocks, bool $override = false): void
-    {
-        if ($override)
-        {
-            static::$blocks = [];
-        }
-
-        foreach ($blocks as $type => $block)
-        {
-            if (!in_array(Block::class, class_parents($block)))
-            {
-                throw new EditorPhpException($block . ' must extend ' . Block::class);
-            }
-
-            static::$blocks[$type] = $block;
-        }
-    }
-
-    /**
-     * Returns the time of given `Editor.js` output.
+     * Returns the time of given `Editor.js` input.
      *
      * @return Carbon
      */
     public function time(): Carbon
     {
-        return Carbon::parse(Arr::get($this->input, 'time') / 1000);
+        // return Carbon::parse(Arr::get($this->input, 'time') / 1000);
+        // return Carbon::parse(new DateTime('@' . Arr::get($this->input, 'time') / 1000));
+        return Carbon::createFromTimestampMs(Arr::get($this->input, 'time'));
     }
 
     /**
-     * Returns parsed blocks of given `Editor.js` output.
+     * Returns parsed blocks of given `Editor.js` input.
      *
      * @param EditorPhp|null $root
      *
@@ -100,23 +58,21 @@ class Parser
     {
         $blocks = new Collection();
 
-        foreach (Arr::get($this->input, 'blocks') as $block)
-        {
+        foreach (Arr::get($this->input, 'blocks') as $block) {
             $type = Arr::get($block, 'type');
 
-            if (!key_exists($type, static::$blocks))
-            {
-                throw new EditorPhpException('Unknown block type: ' . $type);
+            if (!Registry::hasBlockType($type)) {
+                throw new UnknownBlockException($type);
             }
 
-            $blocks->push(new (static::$blocks[$type])(Arr::get($block, 'data'), $root));
+            $blocks->push(new (Registry::getBlockByType($type))(Arr::get($block, 'data'), $root));
         }
 
         return $blocks;
     }
 
     /**
-     * Returns the version of given `Editor.js` output.
+     * Returns the version of given `Editor.js` input.
      *
      * @return string
      */
@@ -126,31 +82,23 @@ class Parser
     }
 
     /**
-     * Parses given `Editor.js` output JSON.
+     * Parses given `Editor.js` input JSON.
      *
-     * @param string $input
+     * @param array $input
      *
      * @return array
      */
-    protected function handleInput(string $input): array
+    protected function handleInput(array $input): array
     {
-        if (!Str::isJson($input))
-        {
-            throw new EditorPhpException('Given Editor.js output is not a valid JSON.');
-        }
-
-        $input = json_decode($input, true);
-
-        if (!$this->validateSchema($input))
-        {
-            throw new EditorPhpException('Given Editor.js output is not matching schema.');
+        if (!$this->validateSchema($input)) {
+            throw new SchemaMismatchException('Given Editor.js input is not matching schema.');
         }
 
         return $input;
     }
 
     /**
-     * Validates given `Editor.js` output.
+     * Validates given `Editor.js` input.
      *
      * @param array $input
      *
@@ -159,14 +107,25 @@ class Parser
     public function validateSchema(array $input): bool
     {
         $validator = Helpers::makeValidator($input, [
-            'time' => 'required|numeric',
-            'blocks' => 'present|array',
-            'blocks.*' => 'present|array',
-            'blocks.*.type' => 'required|string',
-            'blocks.*.data' => 'present|array',
-            'version' => 'required|string',
+            'time' => ['required', 'numeric'],
+            'blocks' => ['present', 'array'],
+            'blocks.*' => ['present', 'array'],
+            'blocks.*.type' => ['required', 'string', Rule::in(Registry::getBlocksTypes())],
+            'blocks.*.data' => ['present', 'array'],
+            'version' => ['required', 'string'],
         ]);
 
         return !$validator->fails();
+    }
+
+    public static function fromString(string $input): self
+    {
+        if (!Str::isJson($input)) {
+            throw new InvalidInputException('Given Editor.js input is not a valid JSON.');
+        }
+
+        $input = json_decode($input, true);
+
+        return new static($input);
     }
 }

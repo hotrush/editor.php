@@ -26,9 +26,15 @@
 			"data": {
 				"style": "unordered",
 				"items": [
-					"It is a block-styled editor",
-					"It returns clean data output in JSON",
-					"Designed to be extendable and pluggable with a simple API"
+					{
+						"content": "It is a block-styled editor"
+					},
+					{
+						"content": "It returns clean data output in JSON"
+					},
+					{
+						"content": "Designed to be extendable and pluggable with a simple API"
+					}
 				]
 			}
 		},
@@ -137,25 +143,6 @@
 			"type": "raw",
 			"data": {
 				"html": "<div style=\"background: #000; color: #fff; font-size: 30px; padding: 50px;\">Any HTML code</div>"
-			}
-		},
-		{
-			"type": "checklist",
-			"data": {
-				"items": [
-					{
-						"text": "This is a block-styled editor",
-						"checked": true
-					},
-					{
-						"text": "Clean output data",
-						"checked": false
-					},
-					{
-						"text": "Simple and powerful API",
-						"checked": true
-					}
-				]
 			}
 		},
 		{
