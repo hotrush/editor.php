@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use Hotrush\EditorPhp\Blocks\Paragraph;
 use Hotrush\EditorPhp\Exceptions\InvalidBlockException;
@@ -9,7 +9,7 @@ use Hotrush\EditorPhp\Registry;
 
 test(
     'Can register block',
-    function() {
+    function () {
         Registry::registerBlock('p', Paragraph::class);
 
         expect(Registry::getBlocks())->toHaveKey('p')
@@ -20,7 +20,7 @@ test(
 
 test(
     'Can override registered blocks',
-    function() {
+    function () {
         Registry::registerBlocks(['p' => Paragraph::class]);
         expect(Registry::getBlocks())->toHaveKey('p');
 
@@ -32,14 +32,13 @@ test(
 test(
     'Can not register invalid block',
     // @phpstan-ignore-next-line
-    fn () => Registry::registerBlock('foo', get_class((new class()
-    {
+    fn () => Registry::registerBlock('foo', get_class((new class () {
     })))
 )->throws(InvalidBlockException::class);
 
 test(
     'Can get fakeable blocks',
-    function() {
+    function () {
         Registry::registerBlocks([
             'p' => Paragraph::class,
             'p2' => Paragraph::class,
@@ -54,7 +53,7 @@ test(
 
 test(
     'Can check if block type exists',
-    function() {
+    function () {
         Registry::registerBlock('p', Paragraph::class);
         expect(Registry::hasBlockType('p'))->toBeTrue()
             ->and(Registry::hasBlockType('foo'))->toBeFalse();
@@ -63,7 +62,7 @@ test(
 
 test(
     'Can set template',
-    function($template) {
+    function ($template) {
         Registry::setTemplate($template);
         expect(Registry::getTemplate())->toEqual($template);
     }

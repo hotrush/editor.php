@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use Hotrush\EditorPhp\Casts\EditorPhpCast;
 use Hotrush\EditorPhp\EditorPhp;
 use Illuminate\Database\Eloquent\Model;
 
-$baseModel = new class() extends Model
-{
+$baseModel = new class () extends Model {
     protected $fillable = [
         'title',
         'content',

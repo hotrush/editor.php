@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use Hotrush\EditorPhp\Block;
 use Hotrush\EditorPhp\Blocks\Paragraph;
@@ -31,7 +31,7 @@ test(
 
 test(
     'Can register block',
-    function() {
+    function () {
         EditorPhp::register(['p' => Paragraph::class]);
 
         expect(Registry::getBlocks())->toHaveKey('p')
@@ -67,7 +67,7 @@ test(
 
 test(
     'can be rendered either with Bootstrap template or Tailwind template',
-    function($sample) {
+    function ($sample) {
         EditorPhp::useBootstrapFive();
         expect(EditorPhp::make($sample)->render())->toBeString();
         EditorPhp::useTailwind();
@@ -87,7 +87,7 @@ test(
 
 test(
     'Can add and use macro',
-    function($sample) {
+    function ($sample) {
         EditorPhp::macro(
             'getParagraphs',
             fn () => $this->blocks->filter(fn (Block $block) => $block instanceof Paragraph)
@@ -99,7 +99,7 @@ test(
 
 test(
     'Can handle dynamic property',
-    function() {
+    function () {
         $editor = EditorPhp::make();
 
         // @phpstan-ignore-next-line

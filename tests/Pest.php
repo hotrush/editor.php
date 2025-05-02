@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use Hotrush\EditorPhp\EditorPhp;
 
 uses()
-    ->beforeEach(function() {
+    ->beforeEach(function () {
         EditorPhp::register([
             'attaches' => Hotrush\EditorPhp\Blocks\Attaches::class,
             'code' => Hotrush\EditorPhp\Blocks\Code::class,

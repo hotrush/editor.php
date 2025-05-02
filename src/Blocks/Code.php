@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Hotrush\EditorPhp\Blocks;
 
@@ -46,8 +46,7 @@ class Code extends Block implements Fakeable
     {
         $template = Registry::getTemplate();
 
-        if (View::getFacadeRoot())
-        {
+        if (View::getFacadeRoot()) {
             return view("editor.php::{$template}.code")
                 ->with($this->only('code'))
                 ->render();

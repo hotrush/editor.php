@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Hotrush\EditorPhp\Blocks;
 
@@ -54,8 +54,7 @@ class LinkTool extends Block implements Fakeable
     {
         $template = Registry::getTemplate();
 
-        if (View::getFacadeRoot())
-        {
+        if (View::getFacadeRoot()) {
             return view("editor.php::{$template}.linktool")
                 ->with($this->only('link', 'meta'))
                 ->render();

@@ -19,7 +19,7 @@ parameters:
 			path: src/Parser.php
 
 		-
-			message: '#^Anonymous function should return Pest\\Mixins\\Expectation\<BumpCore\\EditorPhp\\Blocks\\Paragraph\|null\> but returns Pest\\Mixins\\Expectation\<BumpCore\\EditorPhp\\Blocks\\Paragraph\|null\>\.$#'
+			message: '#^Anonymous function should return Pest\\Mixins\\Expectation\<Hotrush\\EditorPhp\\Blocks\\Paragraph\|null\> but returns Pest\\Mixins\\Expectation\<Hotrush\\EditorPhp\\Blocks\\Paragraph\|null\>\.$#'
 			identifier: return.type
 			count: 1
 			path: tests/BlockTest.php
@@ -43,19 +43,19 @@ parameters:
 			path: tests/BlockTest.php
 
 		-
-			message: '#^Access to an undefined property BumpCore\\EditorPhp\\EditorPhp\:\:\$baz\.$#'
+			message: '#^Access to an undefined property Hotrush\\EditorPhp\\EditorPhp\:\:\$baz\.$#'
 			identifier: property.notFound
 			count: 1
 			path: tests/EditorPhpTest.php
 
 		-
-			message: '#^Anonymous function should return Pest\\Mixins\\Expectation\<BumpCore\\EditorPhp\\EditorPhp\|null\> but returns Pest\\Mixins\\Expectation\<BumpCore\\EditorPhp\\EditorPhp\|null\>\.$#'
+			message: '#^Anonymous function should return Pest\\Mixins\\Expectation\<Hotrush\\EditorPhp\\EditorPhp\|null\> but returns Pest\\Mixins\\Expectation\<Hotrush\\EditorPhp\\EditorPhp\|null\>\.$#'
 			identifier: return.type
 			count: 4
 			path: tests/EditorPhpTest.php
 
 		-
-			message: '#^Anonymous function should return Pest\\Mixins\\Expectation\<BumpCore\\EditorPhp\\EditorPhp\|string\|null\> but returns Pest\\Mixins\\Expectation\<BumpCore\\EditorPhp\\EditorPhp\|string\|null\>\.$#'
+			message: '#^Anonymous function should return Pest\\Mixins\\Expectation\<Hotrush\\EditorPhp\\EditorPhp\|string\|null\> but returns Pest\\Mixins\\Expectation\<Hotrush\\EditorPhp\\EditorPhp\|string\|null\>\.$#'
 			identifier: return.type
 			count: 2
 			path: tests/EditorPhpTest.php
@@ -73,7 +73,7 @@ parameters:
 			path: tests/EditorPhpTest.php
 
 		-
-			message: '#^Call to an undefined method BumpCore\\EditorPhp\\EditorPhp\:\:getParagraphs\(\)\.$#'
+			message: '#^Call to an undefined method Hotrush\\EditorPhp\\EditorPhp\:\:getParagraphs\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: tests/EditorPhpTest.php
@@ -103,7 +103,7 @@ parameters:
 			path: tests/Laravel/EditorPhpTest.php
 
 		-
-			message: '#^Anonymous function should return Pest\\Mixins\\Expectation\<BumpCore\\EditorPhp\\Parser\|null\> but returns Pest\\Mixins\\Expectation\<BumpCore\\EditorPhp\\Parser\|null\>\.$#'
+			message: '#^Anonymous function should return Pest\\Mixins\\Expectation\<Hotrush\\EditorPhp\\Parser\|null\> but returns Pest\\Mixins\\Expectation\<Hotrush\\EditorPhp\\Parser\|null\>\.$#'
 			identifier: return.type
 			count: 2
 			path: tests/ParserTest.php

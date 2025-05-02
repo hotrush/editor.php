@@ -33,9 +33,9 @@
 	"require-dev": {
 		"pestphp/pest": "^3.0",
 		"orchestra/testbench": "^9.0|^10.0",
-		"friendsofphp/php-cs-fixer": "^3.14.4",
 		"phpstan/phpstan": "^2.0",
-		"fakerphp/faker": "^1.23"
+		"fakerphp/faker": "^1.23",
+		"laravel/pint": "^1.22"
 	},
 	"suggest": {
 		"fakerphp/faker": "Required to use fake data generation for blocks."

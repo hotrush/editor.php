@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Hotrush\EditorPhp;
 
@@ -11,8 +11,7 @@ class EditorPhpServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        if ($this->app->runningInConsole())
-        {
+        if ($this->app->runningInConsole()) {
             $this->commands(BlockMakeCommand::class);
         }
 

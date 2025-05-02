@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use Hotrush\EditorPhp\Block;
 use Hotrush\EditorPhp\Blocks\Paragraph;
@@ -60,7 +60,7 @@ test(
 
 test(
     'Can be set data via magic method',
-    function() {
+    function () {
         $paragraph = Paragraph::make(['text' => 'foo']);
         // @phpstan-ignore-next-line
         $paragraph->text = 'baz';
@@ -80,7 +80,7 @@ test(
 
 test(
     'Can unset data via magic method',
-    function() {
+    function () {
         $paragraph = Paragraph::make(['text' => 'foo']);
         unset($paragraph->text);
         expect($paragraph->has('text'))->toBeFalse();
@@ -89,7 +89,7 @@ test(
 
 test(
     'Does not sanitizes or validates data by default',
-    function() {
+    function () {
         Registry::registerBlock('block', 'BazBlock');
 
         $block = new BazBlock(['foo' => '<script>alert("foo")</script>']);
@@ -100,7 +100,7 @@ test(
 
 test(
     'Data is empty on invalid data',
-    function() {
+    function () {
         Registry::registerBlock('block', 'BarBlock');
 
         $block = new BarBlock(['foo' => 123]);

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Hotrush\EditorPhp\Tests\Laravel;
 
@@ -26,7 +26,7 @@ class TestCase extends BaseTestCase
      */
     protected function defineRoutes($router): void
     {
-        $router->get('/', function() {
+        $router->get('/', function () {
             return EditorPhp::make(file_get_contents(__DIR__ . '/../Datasets/samples/valid.json'));
         });
     }

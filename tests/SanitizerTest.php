@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use Hotrush\EditorPhp\Sanitizer;
 
 test(
     'Can ignore sanitization',
-    function($data) {
+    function ($data) {
         $sanitizer = new Sanitizer(['text' => $data], '*');
 
         expect($sanitizer->sanitize()['text'])->toBe($data);
@@ -20,7 +20,7 @@ test(
 
 test(
     'Can sanitize HTML',
-    function($data, $expected) {
+    function ($data, $expected) {
         $sanitizer = new Sanitizer(
             data: [
                 'text' => ['nested' => [$data]],

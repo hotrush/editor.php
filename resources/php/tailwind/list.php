@@ -1,18 +1,18 @@
-<?php if($style === 'ordered'): ?>
+<?php if ($style === 'ordered'): ?>
     <ol class="pl-8 mb-4 list-decimal">
-        <?php foreach($items as $item): ?>
+        <?php foreach ($items as $item): ?>
             <li class="mb-1"><?php echo $item['content']; ?></li>
         <?php endforeach; ?>
     </ol>
-<?php elseif($style === 'unordered'): ?>
+<?php elseif ($style === 'unordered'): ?>
     <ul class="pl-8 mb-4 list-disc">
-        <?php foreach($items as $item): ?>
+        <?php foreach ($items as $item): ?>
             <li class="mb-1"><?php echo $item['content']; ?></li>
         <?php endforeach; ?>
     </ul>
 <?php else: ?>
     <ul class="flex flex-col items-start pl-8 gap-1 mb-4">
-        <?php foreach($items as $item): ?>
+        <?php foreach ($items as $item): ?>
             <li class="inline-flex justify-center items-center gap-2">
                 <span class="bg-gray-100 rounded-full <?php echo $item['meta']['checked'] ? 'text-gray-700' : 'text-gray-400'; ?>">
                     <svg
@@ -29,7 +29,7 @@
                     </svg>
                 </span>
 
-                <?php if($item['meta']['checked']): ?>
+                <?php if ($item['meta']['checked']): ?>
                     <del><?php echo $item['content']; ?></del>
                 <?php else: ?>
                     <span><?php echo $item['content']; ?></span>
