@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BumpCore\EditorPhp\Contracts;
+namespace Hotrush\EditorPhp\Contracts;
 
 use Faker\Generator;
 

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace BumpCore\EditorPhp;
+namespace Hotrush\EditorPhp;
 
-use BumpCore\EditorPhp\Contracts\Fakeable;
-use BumpCore\EditorPhp\Exceptions\UnknownBlockException;
+use Hotrush\EditorPhp\Contracts\Fakeable;
+use Hotrush\EditorPhp\Exceptions\UnknownBlockException;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;

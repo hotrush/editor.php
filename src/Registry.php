@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BumpCore\EditorPhp;
+namespace Hotrush\EditorPhp;
 
-use BumpCore\EditorPhp\Contracts\Fakeable;
-use BumpCore\EditorPhp\Exceptions\InvalidBlockException;
-use BumpCore\EditorPhp\Exceptions\InvalidTemplateException;
+use Hotrush\EditorPhp\Contracts\Fakeable;
+use Hotrush\EditorPhp\Exceptions\InvalidBlockException;
+use Hotrush\EditorPhp\Exceptions\InvalidTemplateException;
 
 class Registry
 {

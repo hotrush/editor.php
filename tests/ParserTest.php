@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use BumpCore\EditorPhp\Exceptions\SchemaMismatchException;
-use BumpCore\EditorPhp\Parser;
+use Hotrush\EditorPhp\Exceptions\SchemaMismatchException;
+use Hotrush\EditorPhp\Parser;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 

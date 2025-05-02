@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BumpCore\EditorPhp;
+namespace Hotrush\EditorPhp;
 
-use BumpCore\EditorPhp\Console\BlockMakeCommand;
+use Hotrush\EditorPhp\Console\BlockMakeCommand;
 use Illuminate\Support\ServiceProvider;
 
 class EditorPhpServiceProvider extends ServiceProvider

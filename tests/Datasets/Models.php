@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use BumpCore\EditorPhp\Casts\EditorPhpCast;
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\Casts\EditorPhpCast;
+use Hotrush\EditorPhp\EditorPhp;
 use Illuminate\Database\Eloquent\Model;
 
 $baseModel = new class() extends Model

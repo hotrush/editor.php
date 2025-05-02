@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BumpCore\EditorPhp;
+namespace Hotrush\EditorPhp;
 
 use Illuminate\Support\Arr;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizer;

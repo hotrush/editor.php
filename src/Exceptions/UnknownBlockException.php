@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BumpCore\EditorPhp\Exceptions;
+namespace Hotrush\EditorPhp\Exceptions;
 
 use Exception;
 

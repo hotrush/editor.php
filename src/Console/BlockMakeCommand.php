@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BumpCore\EditorPhp\Console;
+namespace Hotrush\EditorPhp\Console;
 
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Attribute\AsCommand;

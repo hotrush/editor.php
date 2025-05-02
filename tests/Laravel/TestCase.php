@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace BumpCore\EditorPhp\Tests\Laravel;
+namespace Hotrush\EditorPhp\Tests\Laravel;
 
-use BumpCore\EditorPhp\EditorPhp;
-use BumpCore\EditorPhp\EditorPhpServiceProvider;
+use Hotrush\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhpServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase

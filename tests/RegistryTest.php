@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use BumpCore\EditorPhp\Blocks\Paragraph;
-use BumpCore\EditorPhp\Exceptions\InvalidBlockException;
-use BumpCore\EditorPhp\Exceptions\InvalidTemplateException;
-use BumpCore\EditorPhp\Registry;
+use Hotrush\EditorPhp\Blocks\Paragraph;
+use Hotrush\EditorPhp\Exceptions\InvalidBlockException;
+use Hotrush\EditorPhp\Exceptions\InvalidTemplateException;
+use Hotrush\EditorPhp\Registry;
 
 test(
     'Can register block',

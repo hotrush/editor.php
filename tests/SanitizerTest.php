@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use BumpCore\EditorPhp\Sanitizer;
+use Hotrush\EditorPhp\Sanitizer;
 
 test(
     'Can ignore sanitization',

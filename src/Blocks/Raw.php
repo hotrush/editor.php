@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace BumpCore\EditorPhp\Blocks;
+namespace Hotrush\EditorPhp\Blocks;
 
-use BumpCore\EditorPhp\Block;
-use BumpCore\EditorPhp\Contracts\Fakeable;
+use Hotrush\EditorPhp\Block;
+use Hotrush\EditorPhp\Contracts\Fakeable;
 use Faker\Generator;
 
 class Raw extends Block implements Fakeable

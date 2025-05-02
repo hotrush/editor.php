@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BumpCore\EditorPhp\Blocks;
+namespace Hotrush\EditorPhp\Blocks;
 
-use BumpCore\EditorPhp\Block;
-use BumpCore\EditorPhp\Contracts\Fakeable;
-use BumpCore\EditorPhp\Helpers;
-use BumpCore\EditorPhp\Registry;
+use Hotrush\EditorPhp\Block;
+use Hotrush\EditorPhp\Contracts\Fakeable;
+use Hotrush\EditorPhp\Helpers;
+use Hotrush\EditorPhp\Registry;
 use Faker\Generator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Validation\Rule;

@@ -1,19 +1,23 @@
 {
-	"name": "bumpcore/editor.php",
+	"name": "hotrush/editor.php",
 	"description": "PHP integration for Editor.js",
 	"type": "library",
 	"license": "MIT",
 	"autoload": {
 		"psr-4": {
-			"BumpCore\\EditorPhp\\": "src/"
+			"Hotrush\\EditorPhp\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"BumpCore\\EditorPhp\\Tests\\": "tests/"
+			"Hotrush\\EditorPhp\\Tests\\": "tests/"
 		}
 	},
 	"authors": [
+		{
+			"name": "Roma Rush",
+			"role": "Developer"
+		},
 		{
 			"name": "Abdulkadir Cemiloğlu",
 			"email": "kadir.cemiloglu1@gmail.com",
@@ -44,7 +48,7 @@
 	"extra": {
 		"laravel": {
 			"providers": [
-				"BumpCore\\EditorPhp\\EditorPhpServiceProvider"
+				"Hotrush\\EditorPhp\\EditorPhpServiceProvider"
 			]
 		}
 	}

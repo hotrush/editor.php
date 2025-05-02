@@ -1,6 +1,6 @@
 <?php
 
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhp;
 
 test(
     'Casting',

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BumpCore\EditorPhp;
+namespace Hotrush\EditorPhp;
 
-use BumpCore\EditorPhp\Exceptions\InvalidInputException;
-use BumpCore\EditorPhp\Exceptions\SchemaMismatchException;
-use BumpCore\EditorPhp\Exceptions\UnknownBlockException;
+use Hotrush\EditorPhp\Exceptions\InvalidInputException;
+use Hotrush\EditorPhp\Exceptions\SchemaMismatchException;
+use Hotrush\EditorPhp\Exceptions\UnknownBlockException;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Arr;

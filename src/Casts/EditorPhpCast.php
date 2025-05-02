@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BumpCore\EditorPhp\Casts;
+namespace Hotrush\EditorPhp\Casts;
 
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhp;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 

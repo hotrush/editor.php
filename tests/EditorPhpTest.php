@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use BumpCore\EditorPhp\Block;
-use BumpCore\EditorPhp\Blocks\Paragraph;
-use BumpCore\EditorPhp\EditorPhp;
-use BumpCore\EditorPhp\Registry;
-use BumpCore\EditorPhp\Parser;
+use Hotrush\EditorPhp\Block;
+use Hotrush\EditorPhp\Blocks\Paragraph;
+use Hotrush\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\Registry;
+use Hotrush\EditorPhp\Parser;
 use Illuminate\Support\Collection;
 
 test(

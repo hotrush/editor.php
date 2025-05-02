@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use BumpCore\EditorPhp\Block;
-use BumpCore\EditorPhp\Blocks\Paragraph;
-use BumpCore\EditorPhp\Registry;
+use Hotrush\EditorPhp\Block;
+use Hotrush\EditorPhp\Blocks\Paragraph;
+use Hotrush\EditorPhp\Registry;
 
 class BazBlock extends Block
 {

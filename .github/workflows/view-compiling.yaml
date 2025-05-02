@@ -21,7 +21,9 @@ jobs:
           php-version: '8.4'
           coverage: none
 
-      - uses: ./.github/actions/composer-install
+      - name: Install dependencies
+        shell: bash
+        run: composer install --prefer-dist
 
       - name: Execute script
         run: php .github/scripts/compile-templates.php

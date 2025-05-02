@@ -20,7 +20,9 @@ jobs:
           php-version: '8.4'
           coverage: none
 
-      - uses: ./.github/actions/composer-install
+      - name: Install dependencies
+        shell: bash
+        run: composer install --prefer-dist
 
       - name: Execute PHPStan
         run: vendor/bin/phpstan --configuration="phpstan.neon.dist"

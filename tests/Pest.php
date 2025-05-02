@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-use BumpCore\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\EditorPhp;
 
 uses()
     ->beforeEach(function() {
         EditorPhp::register([
-            'attaches' => BumpCore\EditorPhp\Blocks\Attaches::class,
-            'checklist' => BumpCore\EditorPhp\Blocks\Checklist::class,
-            'code' => BumpCore\EditorPhp\Blocks\Code::class,
-            'delimiter' => BumpCore\EditorPhp\Blocks\Delimiter::class,
-            'embed' => BumpCore\EditorPhp\Blocks\Embed::class,
-            'header' => BumpCore\EditorPhp\Blocks\Header::class,
-            'image' => BumpCore\EditorPhp\Blocks\Image::class,
-            'linkTool' => BumpCore\EditorPhp\Blocks\LinkTool::class,
-            'list' => BumpCore\EditorPhp\Blocks\ListBlock::class,
-            'paragraph' => BumpCore\EditorPhp\Blocks\Paragraph::class,
-            'personality' => BumpCore\EditorPhp\Blocks\Personality::class,
-            'quote' => BumpCore\EditorPhp\Blocks\Quote::class,
-            'raw' => BumpCore\EditorPhp\Blocks\Raw::class,
-            'table' => BumpCore\EditorPhp\Blocks\Table::class,
-            'warning' => BumpCore\EditorPhp\Blocks\Warning::class,
+            'attaches' => Hotrush\EditorPhp\Blocks\Attaches::class,
+            'checklist' => Hotrush\EditorPhp\Blocks\Checklist::class,
+            'code' => Hotrush\EditorPhp\Blocks\Code::class,
+            'delimiter' => Hotrush\EditorPhp\Blocks\Delimiter::class,
+            'embed' => Hotrush\EditorPhp\Blocks\Embed::class,
+            'header' => Hotrush\EditorPhp\Blocks\Header::class,
+            'image' => Hotrush\EditorPhp\Blocks\Image::class,
+            'linkTool' => Hotrush\EditorPhp\Blocks\LinkTool::class,
+            'list' => Hotrush\EditorPhp\Blocks\ListBlock::class,
+            'paragraph' => Hotrush\EditorPhp\Blocks\Paragraph::class,
+            'personality' => Hotrush\EditorPhp\Blocks\Personality::class,
+            'quote' => Hotrush\EditorPhp\Blocks\Quote::class,
+            'raw' => Hotrush\EditorPhp\Blocks\Raw::class,
+            'table' => Hotrush\EditorPhp\Blocks\Table::class,
+            'warning' => Hotrush\EditorPhp\Blocks\Warning::class,
         ]);
     })->in('.');

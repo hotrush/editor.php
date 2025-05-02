@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use BumpCore\EditorPhp\EditorPhp;
-use BumpCore\EditorPhp\Tests\Laravel\TestCase;
+use Hotrush\EditorPhp\EditorPhp;
+use Hotrush\EditorPhp\Tests\Laravel\TestCase;
 
 uses(TestCase::class);
 

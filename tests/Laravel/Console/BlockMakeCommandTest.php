@@ -1,6 +1,6 @@
 <?php
 
-use BumpCore\EditorPhp\Tests\Laravel\TestCase;
+use Hotrush\EditorPhp\Tests\Laravel\TestCase;
 use Illuminate\Console\Command;
 
 use function Orchestra\Testbench\artisan;

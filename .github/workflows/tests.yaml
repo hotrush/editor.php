@@ -19,7 +19,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - uses: ./.github/actions/composer-install
+      - name: Install dependencies
+        shell: bash
+        run: composer install --prefer-dist
 
       - name: Execute tests
         run: ./vendor/bin/pest
