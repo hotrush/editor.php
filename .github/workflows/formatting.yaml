@@ -1,7 +1,6 @@
 name: Fix styling
 
 on:
-  push:
   pull_request:
 
 permissions:
@@ -28,5 +27,7 @@ jobs:
         run: ./vendor/bin/php-cs-fixer fix
 
       - uses: stefanzweifel/git-auto-commit-action@v5
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: true
         with:
           commit_message: Fix styling

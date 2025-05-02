@@ -1,7 +1,6 @@
 name: View Compiling
 
 on:
-  push:
   pull_request:
 
 permissions:
