@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Hotrush\EditorPhp\Blocks;
 
+use Faker\Generator;
 use Hotrush\EditorPhp\Block;
 use Hotrush\EditorPhp\Contracts\Fakeable;
-use Faker\Generator;
 
 class Raw extends Block implements Fakeable
 {
@@ -48,6 +48,7 @@ class Raw extends Block implements Fakeable
      * Generates fake data for the block.
      *
      * @param Generator $generator
+     *
      * @return array
      */
     public static function fake(Generator $generator): array

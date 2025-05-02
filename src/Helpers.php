@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Hotrush\EditorPhp;
 
@@ -22,7 +22,8 @@ class Helpers
      */
     public static function makeValidator(array $data, array $rules): Validator
     {
-        if (Facades\Validator::getFacadeRoot()) {
+        if (Facades\Validator::getFacadeRoot())
+        {
             return Facades\Validator::make($data, $rules);
         }
 

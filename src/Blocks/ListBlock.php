@@ -1,14 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Hotrush\EditorPhp\Blocks;
 
+use Faker\Generator;
 use Hotrush\EditorPhp\Block;
 use Hotrush\EditorPhp\Contracts\Fakeable;
 use Hotrush\EditorPhp\Helpers;
 use Hotrush\EditorPhp\Registry;
-use Faker\Generator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Validation\Rule;
 
@@ -23,7 +23,7 @@ class ListBlock extends Block implements Fakeable
     {
         return [
             'style' => [],
-            'item.*' => [],
+            'items.*' => [],
         ];
     }
 
@@ -35,9 +35,10 @@ class ListBlock extends Block implements Fakeable
     public function rules(): array
     {
         return [
-            'style' => ['string', Rule::in(['ordered', 'unordered'])],
+            'style' => ['string', Rule::in(['ordered', 'unordered', 'checklist'])],
+            'meta' => 'array',
             'items' => 'array',
-            'item.*' => 'string',
+            'items.*' => 'array',
         ];
     }
 
@@ -66,18 +67,21 @@ class ListBlock extends Block implements Fakeable
      * Generates fake data for the block.
      *
      * @param Generator $generator
+     *
      * @return array
      */
     public static function fake(Generator $generator): array
     {
         $items = [];
 
-        foreach (range(0, $generator->numberBetween(1, 10)) as $index) {
-            $items[] = $generator->text(64);
+        foreach (range(0, $generator->numberBetween(1, 10)) as $_) {
+            $items[] = [
+                'content' => $generator->text(64),
+            ];
         }
 
         return [
-            'style' => $generator->randomElement(['ordered', 'unordered']),
+            'style' => $generator->randomElement(['ordered', 'unordered', 'checklist']),
             'items' => $items,
         ];
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Hotrush\EditorPhp;
 
@@ -57,16 +57,19 @@ class Sanitizer
      */
     public function sanitize(): array
     {
-        if ($this->rules === '*') {
+        if ($this->rules === '*')
+        {
             return $this->data;
         }
 
         $data = Arr::dot($this->data);
 
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value)
+        {
             $rule = $this->getRuleFor($key);
 
-            if ($rule === '*' || !is_string($value)) {
+            if ($rule === '*' || !is_string($value))
+            {
                 continue;
             }
 
@@ -100,7 +103,8 @@ class Sanitizer
     {
         $config = $this->defaultHtmlSanitizerConfig;
 
-        foreach ($rule as $tag => $attributes) {
+        foreach ($rule as $tag => $attributes)
+        {
             $config = $config->allowElement($tag, $attributes);
         }
 
@@ -116,7 +120,8 @@ class Sanitizer
     {
         $config = new HtmlSanitizerConfig();
 
-        foreach (W3CReference::BODY_ELEMENTS as $element => $safe) {
+        foreach (W3CReference::BODY_ELEMENTS as $element => $safe)
+        {
             $config = $config->blockElement($element);
         }
 
@@ -152,13 +157,16 @@ class Sanitizer
     {
         $parsed = [];
 
-        foreach ($rules as $key => $rule) {
-            if ($rule === '*') {
+        foreach ($rules as $key => $rule)
+        {
+            if ($rule === '*')
+            {
                 $parsed[$key] = '*';
                 continue;
             }
 
-            if (empty($rule)) {
+            if (empty($rule))
+            {
                 $parsed[$key] = [];
                 continue;
             }
@@ -180,7 +188,8 @@ class Sanitizer
     {
         $parsed = [];
 
-        foreach (Arr::wrap($rule) as $element) {
+        foreach (Arr::wrap($rule) as $element)
+        {
             $element = explode(':', $element);
 
             // First key is tag.

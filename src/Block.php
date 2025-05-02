@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Hotrush\EditorPhp;
 
@@ -200,13 +200,15 @@ abstract class Block implements Arrayable, Htmlable, Renderable
      */
     protected function validateData(array $data, array $rules): array
     {
-        if ($rules === []) {
+        if ($rules === [])
+        {
             return $data;
         }
 
         $validator = Helpers::makeValidator($data, $rules);
 
-        if ($validator->fails()) {
+        if ($validator->fails())
+        {
             return [];
         }
 

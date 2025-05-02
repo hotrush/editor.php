@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Hotrush\EditorPhp\Casts;
 
@@ -20,7 +20,8 @@ class EditorPhpCast implements CastsAttributes
      */
     public function get(Model $model, string $key, mixed $value, array $attributes)
     {
-        if (is_null($value)) {
+        if (is_null($value))
+        {
             return $value;
         }
 
@@ -37,7 +38,8 @@ class EditorPhpCast implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $value, array $attributes)
     {
-        if ($value instanceof EditorPhp) {
+        if ($value instanceof EditorPhp)
+        {
             return $value->toJson();
         }
 

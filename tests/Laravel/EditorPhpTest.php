@@ -1,5 +1,6 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
 
 use Hotrush\EditorPhp\EditorPhp;
 use Hotrush\EditorPhp\Tests\Laravel\TestCase;

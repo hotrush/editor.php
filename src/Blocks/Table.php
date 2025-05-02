@@ -1,14 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Hotrush\EditorPhp\Blocks;
 
+use Faker\Generator;
 use Hotrush\EditorPhp\Block;
 use Hotrush\EditorPhp\Contracts\Fakeable;
 use Hotrush\EditorPhp\Helpers;
 use Hotrush\EditorPhp\Registry;
-use Faker\Generator;
 use Illuminate\Support\Facades\View;
 
 class Table extends Block implements Fakeable
@@ -49,7 +49,8 @@ class Table extends Block implements Fakeable
     {
         $template = Registry::getTemplate();
 
-        if (View::getFacadeRoot()) {
+        if (View::getFacadeRoot())
+        {
             return view("editor.php::{$template}.table")
                 ->with($this->only('withHeadings', 'content'))
                 ->render();
@@ -65,6 +66,7 @@ class Table extends Block implements Fakeable
      * Generates fake data for the block.
      *
      * @param Generator $generator
+     *
      * @return array
      */
     public static function fake(Generator $generator): array
@@ -72,10 +74,12 @@ class Table extends Block implements Fakeable
         $content = [];
         $width = $generator->numberBetween(2, 8);
 
-        foreach (range(0, $generator->numberBetween(1, 10)) as $_) {
+        foreach (range(0, $generator->numberBetween(1, 10)) as $_)
+        {
             $row = [];
 
-            foreach (range(0, $width) as $__) {
+            foreach (range(0, $width) as $__)
+            {
                 $row[] = $generator->text(64);
             }
 

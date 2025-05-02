@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
+use Carbon\Carbon;
 use Hotrush\EditorPhp\Exceptions\SchemaMismatchException;
 use Hotrush\EditorPhp\Parser;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 test(

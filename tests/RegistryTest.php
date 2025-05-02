@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use Hotrush\EditorPhp\Blocks\Paragraph;
 use Hotrush\EditorPhp\Exceptions\InvalidBlockException;
@@ -32,7 +32,9 @@ test(
 test(
     'Can not register invalid block',
     // @phpstan-ignore-next-line
-    fn () => Registry::registerBlock('foo', get_class((new class() {})))
+    fn () => Registry::registerBlock('foo', get_class((new class()
+    {
+    })))
 )->throws(InvalidBlockException::class);
 
 test(

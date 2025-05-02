@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use Hotrush\EditorPhp\EditorPhp;
 
@@ -8,7 +8,6 @@ uses()
     ->beforeEach(function() {
         EditorPhp::register([
             'attaches' => Hotrush\EditorPhp\Blocks\Attaches::class,
-            'checklist' => Hotrush\EditorPhp\Blocks\Checklist::class,
             'code' => Hotrush\EditorPhp\Blocks\Code::class,
             'delimiter' => Hotrush\EditorPhp\Blocks\Delimiter::class,
             'embed' => Hotrush\EditorPhp\Blocks\Embed::class,

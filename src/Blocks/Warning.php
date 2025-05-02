@@ -1,14 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Hotrush\EditorPhp\Blocks;
 
+use Faker\Generator;
 use Hotrush\EditorPhp\Block;
 use Hotrush\EditorPhp\Contracts\Fakeable;
 use Hotrush\EditorPhp\Helpers;
 use Hotrush\EditorPhp\Registry;
-use Faker\Generator;
 use Illuminate\Support\Facades\View;
 
 class Warning extends Block implements Fakeable
@@ -48,7 +48,8 @@ class Warning extends Block implements Fakeable
     {
         $template = Registry::getTemplate();
 
-        if (View::getFacadeRoot()) {
+        if (View::getFacadeRoot())
+        {
             return view("editor.php::{$template}.warning")
                 ->with($this->only('title', 'message'))
                 ->render();
@@ -64,6 +65,7 @@ class Warning extends Block implements Fakeable
      * Generates fake data for the block.
      *
      * @param Generator $generator
+     *
      * @return array
      */
     public static function fake(Generator $generator): array

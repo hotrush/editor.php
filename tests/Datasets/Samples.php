@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 function readSample(string $sample): string
 {
-    return file_get_contents(__DIR__ . "/samples/$sample.json");
+    return file_get_contents(__DIR__ . "/samples/{$sample}.json");
 }
 
 function readSampleAndDecode(string $sample): array

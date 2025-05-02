@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Hotrush\EditorPhp;
 
+use Carbon\Carbon;
 use Hotrush\EditorPhp\Contracts\Fakeable;
 use Hotrush\EditorPhp\Exceptions\UnknownBlockException;
-use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -51,7 +51,8 @@ class EditorPhp implements Arrayable, Jsonable, Responsable, Renderable, Htmlabl
      */
     public static function make(mixed $input = null): self
     {
-        $parser = match(true) {
+        $parser = match (true)
+        {
             is_string($input) => Parser::fromString($input),
             is_array($input) => new Parser($input),
             is_null($input) => null,
@@ -65,15 +66,19 @@ class EditorPhp implements Arrayable, Jsonable, Responsable, Renderable, Htmlabl
      * Constructor.
      *
      * @param Parser|null $parser
+     *
      * @throws UnknownBlockException
      */
     public function __construct(?Parser $parser = null)
     {
-        if (!$parser) {
+        if (!$parser)
+        {
             $this->time = Carbon::now();
             $this->blocks = new Collection();
             $this->version = null;
-        } else {
+        }
+        else
+        {
             $this->time = $parser->time();
             $this->blocks = $parser->blocks($this);
             $this->version = $parser->version();
@@ -247,7 +252,8 @@ class EditorPhp implements Arrayable, Jsonable, Responsable, Renderable, Htmlabl
         $blocks = Registry::getFakeableBlocks();
         $generatedBlocks = [];
 
-        foreach (range(0, $faker->numberBetween($minLength, $maxLength)) as $_) {
+        foreach (range(0, $faker->numberBetween($minLength, $maxLength)) as $_)
+        {
             /**
              * @var class-string<Block&Fakeable>
              */

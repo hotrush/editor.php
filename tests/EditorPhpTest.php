@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use Hotrush\EditorPhp\Block;
 use Hotrush\EditorPhp\Blocks\Paragraph;
 use Hotrush\EditorPhp\EditorPhp;
-use Hotrush\EditorPhp\Registry;
 use Hotrush\EditorPhp\Parser;
+use Hotrush\EditorPhp\Registry;
 use Illuminate\Support\Collection;
 
 test(

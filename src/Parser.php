@@ -1,14 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Hotrush\EditorPhp;
 
+use Carbon\Carbon;
+use DateTime;
 use Hotrush\EditorPhp\Exceptions\InvalidInputException;
 use Hotrush\EditorPhp\Exceptions\SchemaMismatchException;
 use Hotrush\EditorPhp\Exceptions\UnknownBlockException;
-use Carbon\Carbon;
-use DateTime;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -58,10 +58,12 @@ class Parser
     {
         $blocks = new Collection();
 
-        foreach (Arr::get($this->input, 'blocks') as $block) {
+        foreach (Arr::get($this->input, 'blocks') as $block)
+        {
             $type = Arr::get($block, 'type');
 
-            if (!Registry::hasBlockType($type)) {
+            if (!Registry::hasBlockType($type))
+            {
                 throw new UnknownBlockException($type);
             }
 
@@ -90,7 +92,8 @@ class Parser
      */
     protected function handleInput(array $input): array
     {
-        if (!$this->validateSchema($input)) {
+        if (!$this->validateSchema($input))
+        {
             throw new SchemaMismatchException('Given Editor.js input is not matching schema.');
         }
 
@@ -120,7 +123,8 @@ class Parser
 
     public static function fromString(string $input): self
     {
-        if (!Str::isJson($input)) {
+        if (!Str::isJson($input))
+        {
             throw new InvalidInputException('Given Editor.js input is not a valid JSON.');
         }
 
